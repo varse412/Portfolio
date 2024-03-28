@@ -1,0 +1,2 @@
+This directory holds static assets like HTML files, images, and fonts. 
+The entry point for your React application, usually index.html, resides here.

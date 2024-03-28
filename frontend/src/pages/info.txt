@@ -1,0 +1,2 @@
+Each page of your application has its own folder within this directory. 
+It encapsulates the components and logic specific to that page.

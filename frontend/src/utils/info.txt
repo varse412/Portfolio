@@ -1,0 +1,3 @@
+If you have utility functions or helper files that are used across multiple components, 
+place them in this directory.
+commonly used functions
