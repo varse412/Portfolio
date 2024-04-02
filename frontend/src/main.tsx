@@ -12,21 +12,16 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage/>,
     children: [
       { 
-        path: "profiles/:content",
+        path: "profiles/:profile",
         element: <Profiles/>
       }
     ]
   },
-  // {
-  //   path: '/profiles',
-  //   element: <Profiles/>,
-  //   errorElement: <ErrorPage/>
-  // }
+
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* <App /> */}
     <RouterProvider router={router}/>
   </React.StrictMode>,
 )
