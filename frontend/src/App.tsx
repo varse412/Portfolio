@@ -1,28 +1,23 @@
 
 import './App.css'
-import ProjectForm from './components/project-section-form/index.tsx'
 import {Outlet,Link} from 'react-router-dom'
+import {dashboardScreenName} from '../src/pages/profiles-page/types.ts'
+const dashboardScreens: JSX.Element[] = Object.values(dashboardScreenName).map((screenName, index) => (
+  <div key={index}>
+    <Link to={`profiles/${screenName}`}>{screenName}</Link>
+  </div>
+));
 function App() {
-
   return (
-    
-    // <div style={{display: "flex" }} className='bg-slate-500 container mx-auto'>
-    // <div className='bg-green-400 '>
-    //   <h1 className='text-center text-4xl font-bold text-white'>Projects</h1>
-    //   <div className='card'>
-    //     <ProjectForm/>
-    //   </div>
-    // </div>
-    // <ProjectForm/>
-    
-    
    <div id="projectContainer">
-     <Link to={`profiles/1`}>Hello world open form</Link>
-     <Link to={`profiles/2`}>open box</Link>
-   <Outlet/>
-    
+     
+     <div className='bg-yellow-300'>1</div>
+     <div className='bg-green-500'>{dashboardScreens}</div>
+     <div className='bg-gray-600'>3</div>
+     <div className='bg-pink-400'>4</div>
+     <div className='bg-red-400'><Outlet/></div>
+     <div className='bg-orange-400'>6</div>
    </div>
-  
   )
 }
 
