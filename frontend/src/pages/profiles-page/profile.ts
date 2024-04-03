@@ -2,6 +2,7 @@
 import  React from 'react';
 import {dashboardScreenName} from './types'
 import ProjectForm from "../../components/project-section-form/index.tsx"
+import Projects from "../../pages/projects-page/index.tsx"
 
 const getProfile = (screenName: any): React.FC => {
   switch (screenName) {
@@ -14,7 +15,7 @@ const getProfile = (screenName: any): React.FC => {
     case dashboardScreenName.edu:
       return ProjectForm ;
     case dashboardScreenName.proj:
-      return ProjectForm ;
+      return  Projects;
     case dashboardScreenName.certi:
       return ProjectForm ;
     case dashboardScreenName.skill:
