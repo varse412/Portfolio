@@ -5,7 +5,7 @@ import {data} from "./mockData.ts"
 const Projects: FC=():ReactElement=>{
     const items=["i1","i2","i3","i4","i5","i6","i7","i8"]
     return (
-        <div className="bg-slate-500 w-96 h-96">
+        <div className="bg-slate-500 flex flex-1 flex-row justify-evenly align-middle flex-wrap">
             <EachElement
                of={data}
                render={(item,index)=>(
