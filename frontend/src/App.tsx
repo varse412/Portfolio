@@ -15,7 +15,7 @@ function App() {
      <div className='bg-green-500'>{dashboardScreens}</div>
      <div className='bg-gray-600'>3</div>
      <div className='bg-pink-400'>4</div>
-     <div className='bg-red-400'><Outlet/></div>
+     <div className='flex flex-1'><Outlet/></div>
      <div className='bg-orange-400'>6</div>
    </div>
   )
