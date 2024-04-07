@@ -1,7 +1,9 @@
 import ProjectForm from "../../components/project-section-form";
 import EditCertificate from "../certifications-page/editCertificates";
+import EditEducation from "../education-page/editEducation";
 import { dashboardScreenName } from "../profiles-page/types";
 import EditProject from "../projects-page/editProject";
+import EditWorkExperience from "../workExperience-page/editWorkExperience";
 
 const getEditfile = (screenName: string): React.FC => {
      
@@ -10,10 +12,8 @@ const getEditfile = (screenName: string): React.FC => {
     //     return ProjectForm;
     //   case dashboardScreenName.prof:
     //     return ProjectForm ;
-    //   case dashboardScreenName.workExp:
-    //     return ProjectForm ;
-    //   case dashboardScreenName.edu:
-    //     return ProjectForm ;
+      case dashboardScreenName.workExp: return EditWorkExperience ; break;
+      case dashboardScreenName.edu: return EditEducation ; break;
     //    case dashboardScreenName.skill:
     //     return ProjectForm ;
       case dashboardScreenName.proj: return  EditProject; break;

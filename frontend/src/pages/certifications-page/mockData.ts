@@ -25,3 +25,18 @@ export const data=[
     },
     
 ]
+
+export const certifications=[
+    {   
+        
+        "nameOfCertificate":"varuncsfsfs",
+        "imageCertificate": "sfsffsfs",//file type input
+        "certificateLinkToDownload": "" //drive link to download certificate
+    },
+    {   
+        
+        "nameOfCertificate":"varuncsfsfs",
+        "imageCertificate": "sfsffsfs",
+        "certificateLinkToDownload": ""
+    },
+]
