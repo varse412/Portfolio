@@ -3,7 +3,7 @@ export const enum dashboardScreenName {
     "workExp"= "workExperience",
     "edu"= "education",
     "certi"= "certifications",
-    "prof"= "profile",
+    "prof"= "myProfile",
     "proj"= "projects",
-    "bio"="profileDescription"
+    "bio"="bio"
 }
