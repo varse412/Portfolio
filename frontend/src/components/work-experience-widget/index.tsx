@@ -9,6 +9,7 @@ type WorkExpWidgetProps = {
   description: string;
   startDate: string;
   endDate: string;
+  id: any;
 
 }
 const WorkExpWidget: React.FC = (props: WorkExpWidgetProps) => {
@@ -24,7 +25,7 @@ const WorkExpWidget: React.FC = (props: WorkExpWidgetProps) => {
      </div>: null
      }
      <div className=" flex flex-row border-2 border-red-500 w-full justify-between align-middle my-2">
-     <Link to={`/`}>
+     <Link to={`${props.id}`}>
       <FiEdit style={{background: '#fff7ed'}}/>
      </Link>
       <Link to={`/`}>
