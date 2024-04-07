@@ -1,38 +1,50 @@
 export const data=[
-    {
+    {   id: 1,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 2,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 3,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id:4 ,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id:5 ,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 6,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 7,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 8,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     },
-    {
+    {   id: 9,
         img: "https://picsum.photos/200/300",
         title: "Dummy project",
     }
 ]
+
+export const projectDetails={
+    "projectName":"fvsfsfsffsfsfsfsfsfsfsfsdffsfsfsdfsfsfs",
+    "developmentType":"full stack " ,
+    "projectDescription":"",
+    "techStack":[{"software": "","Keypoints": ["vsvdsvs","cssdds","","","","",""]}],
+    "projectLink":"https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js",
+    "githubLink": "https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js",
+    "liveLink": "https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js",
+    "picture": "https://picsum.photos/200/300.jpg",
+    "demoVideo": "https://www.youtube.com/watch?v=erLbbextvlY&ab_channel=MrBeast",  
+}
