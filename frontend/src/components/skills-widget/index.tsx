@@ -24,9 +24,9 @@ const SkillsWidget: React.FC = (props: SkillsWidgetProps) => {
      <Link to={`${props?.id}`}>
       <FiEdit style={{background: '#fff7ed'}}/>
      </Link>
-      <Link to={`/`}>
+     <button onClick={() => alert("Hello!")}>
       <AiOutlineDelete style={{background: '#fff7ed'}} />
-      </Link>
+      </button>
       </div>
     </div>
   )

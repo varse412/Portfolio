@@ -23,9 +23,9 @@ const ProjectsWidget: React.FC = (props: projectsWidgetProps) => {
      <Link to={`${props.id}`}>
       <FiEdit style={{background: '#fff7ed'}}/>
       </Link>
-      <Link to={`${props.id}`}>
+      <button onClick={() => alert("Hello!")}>
       <AiOutlineDelete style={{background: '#fff7ed'}} />
-      </Link>
+      </button>
       </div>
     </div>
   )

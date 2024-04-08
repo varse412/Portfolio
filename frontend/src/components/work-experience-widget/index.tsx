@@ -28,9 +28,9 @@ const WorkExpWidget: React.FC = (props: WorkExpWidgetProps) => {
      <Link to={`${props.id}`}>
       <FiEdit style={{background: '#fff7ed'}}/>
      </Link>
-      <Link to={`/`}>
+     <button onClick={() => alert("Hello!")}>
       <AiOutlineDelete style={{background: '#fff7ed'}} />
-      </Link>
+      </button>
       </div>
       
       <div className="flex flex-row border-2 border-red-500  items-center justify-center">
