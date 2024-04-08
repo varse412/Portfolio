@@ -4,6 +4,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 type SkillsWidgetProps = {
+  id: any,
   stack: string;
   stackElements: string[];
 }
@@ -20,7 +21,7 @@ const SkillsWidget: React.FC = (props: SkillsWidgetProps) => {
         />
      </ul>
      <div className=" flex flex-row border-2 border-red-500 w-full justify-between align-middle my-2">
-     <Link to={`/`}>
+     <Link to={`${props?.id}`}>
       <FiEdit style={{background: '#fff7ed'}}/>
      </Link>
       <Link to={`/`}>
