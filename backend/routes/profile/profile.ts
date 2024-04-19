@@ -1,18 +1,6 @@
 import express from 'express'
-// import multer from "multer"
 import path from "path"
 import { uploadFile, urlEncodedParser } from '../../middlewares/FormData';
-// const storage = multer.diskStorage({
-//    destination: (req, file, cb) => {
-//       cb(null, 'public/file')
-//    },
-//    filename: (req, file, cb) => {
-//       cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname))
-//    }
-// })
-// const upload = multer({
-//    storage: storage
-// })
 const appRouter = express.Router();
 const getProfileData = (req: any, res: any) => {
    // res.send("Hello got data")

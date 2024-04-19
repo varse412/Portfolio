@@ -1,6 +1,6 @@
 
-import  React from 'react';
-import {dashboardScreenName} from './types'
+import React from 'react';
+import { dashboardScreenName } from './types'
 import ProjectForm from "../../components/project-section-form/index.tsx"
 import Projects from "../../pages/projects-page/index.tsx"
 import userProfile from '../profile-page/index.tsx';
@@ -15,19 +15,19 @@ const getProfile = (screenName: any): React.FC => {
     case dashboardScreenName.bio:
       return Bio;
     case dashboardScreenName.prof:
-      return userProfile ;
+      return userProfile;
     case dashboardScreenName.workExp:
-      return WorkExperience ;
+      return WorkExperience;
     case dashboardScreenName.edu:
-      return Education ;
+      return Education;
     case dashboardScreenName.proj:
-      return  Projects;
+      return Projects;
     case dashboardScreenName.certi:
-      return Certificates ;
+      return Certificates;
     case dashboardScreenName.skill:
-      return Skillset ;
+      return Skillset;
     default:
-      return ProjectForm ;
+      return ProjectForm;
   }
 };
 

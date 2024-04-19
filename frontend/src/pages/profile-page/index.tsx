@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
 import { createRequest, requestParams } from "../../services/createRequests/index.ts"
 import { getFormData } from "../../utils/getFormData.ts"
+import { backendBaseURL } from "../../../constants.ts"
 // import axios from "axios"
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -31,7 +32,7 @@ const userProfile: React.FC = () => {
             // const urlEncoded=new URLSearchParams(form);
             const params: requestParams = {
                 method: "POST",
-                url: "http://localhost:3000/api/profile/update",
+                url: `${backendBaseURL}/api/profile/update`,
                 data: form,
             }
             const response = await createRequest(params)
@@ -140,8 +141,11 @@ const userProfile: React.FC = () => {
     )
 }
 export default userProfile;
+export const onUserProfileLoad = () => {
+    console.log("onBioLoad");
+}
 
-
+// Object.fromEntries(FormData)
 // const params: requestParams = {
 //     method: "POST",
 //     url: "http://localhost:3000/api/profile/update",

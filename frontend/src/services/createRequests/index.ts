@@ -20,7 +20,7 @@ export type requestParams = {
 export const createRequest = async (params: requestParams): Promise<any> => {
     try {
         const { method, url, data, headers } = params
-
+        // const response = await axios(params)
         // const response = await axios({
         //     ...params
         // })
@@ -30,10 +30,7 @@ export const createRequest = async (params: requestParams): Promise<any> => {
             data: data,
             headers: headers
         });
-        // {
-        //     firstName: 'Fred',
-        //     lastName: 'Flintstone'
-        // }
+
         return response.data
     } catch (err) {
         if (err) {
