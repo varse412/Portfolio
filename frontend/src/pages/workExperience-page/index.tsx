@@ -28,6 +28,9 @@ const WorkExperience: React.FC = () => {
 }
 export default WorkExperience;
 
-export const onWorkExperienceLoad = () => {
-
+export const onWorkExperienceLoad = (): Promise<any> => {
+    console.log('onWorkExperienceLoad');
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }

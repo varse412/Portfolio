@@ -18,20 +18,17 @@ const router = createBrowserRouter([
         path: "profiles/:profile",
         element: <Profiles />,
         errorElement: <ErrorPage />,
-        loader: ({ params, request }) => {
-          // return fetch(`/api/teams/${params.teamId}.json`);
-          const fc = getProfileLoader(params.profile)
-          // fc();
-          console.log("params", { params });
-          console.log("req", { request });
-          return {}
+        loader: async ({ params, request }) => {
+          const profileLoaderFunction = getProfileLoader(params.profile)
+          try {
+            const val = await profileLoaderFunction();
+            console.log("val", val)
+            return val
+          } catch (err) {
+            console.log("err", err)
+            return err
+          }
         },
-        // loader: ({ params }) => {
-        //   // return fakeGetTeam(params.teamId);
-        //   console.log("params", { params });
-        //   return {}
-        // },
-
         children: [
           {
             path: ":id",

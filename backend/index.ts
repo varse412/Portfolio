@@ -3,6 +3,11 @@ import dotenv from "dotenv"
 import bodyParser from "body-parser"
 import cors from "cors"
 import path from "path"
+declare global {
+    var __basedir: string;
+}
+global.__basedir = __dirname;
+
 
 const appRouter = require("./routes/profile/profile")
 

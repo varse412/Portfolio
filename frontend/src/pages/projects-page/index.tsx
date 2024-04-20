@@ -31,6 +31,9 @@ const Projects: FC = (): ReactElement => {
 }
 
 export default Projects;
-export const onProjectsLoad = () => {
+export const onProjectsLoad = (): Promise<any> => {
     console.log("projects loaded")
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }

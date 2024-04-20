@@ -28,6 +28,9 @@ const Education: React.FC = () => {
 }
 export default Education;
 
-export const onEducationLoad = () => {
+export const onEducationLoad = (): Promise<any> => {
     console.log("onEducationLoad")
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }

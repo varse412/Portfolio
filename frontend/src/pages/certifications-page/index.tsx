@@ -25,6 +25,9 @@ const Certificates: React.FC = () => {
 }
 export default Certificates;
 
-export const onCertificatesLoad = () => {
+export const onCertificatesLoad = (): Promise<any> => {
     console.log("certificates loaded")
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }

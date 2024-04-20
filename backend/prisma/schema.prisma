@@ -21,8 +21,8 @@ model myProfile {
   title       String
   mobile      String
   githubURL   String
-  linkedinURL String
-  websiteURL  String
-  resumeURL   String
+  linkedInURL String
+  website     String
+  resumeLink  String
   resume      String
 }

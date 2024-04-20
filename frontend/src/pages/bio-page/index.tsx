@@ -59,6 +59,9 @@ const Bio: React.FC = () => {
 }
 export default Bio;
 
-export const onBioLoad = async () => {
-
+export const onBioLoad = (): Promise<any> => {
+    console.log("onBioLoad")
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }

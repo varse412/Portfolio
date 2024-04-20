@@ -29,7 +29,6 @@ const userProfile: React.FC = () => {
 
         try {
             var form = document.querySelector('form');
-            // const urlEncoded=new URLSearchParams(form);
             const params: requestParams = {
                 method: "POST",
                 url: `${backendBaseURL}/api/profile/update`,
@@ -37,8 +36,10 @@ const userProfile: React.FC = () => {
             }
             const response = await createRequest(params)
             console.log("res", response)
+            //we will perform loader reresh after we do this 
 
         } catch (error) {
+            //to handle 
             console.log("can't log data")
         }
 
@@ -141,11 +142,15 @@ const userProfile: React.FC = () => {
     )
 }
 export default userProfile;
-export const onUserProfileLoad = () => {
+export const onUserProfileLoad = (): Promise<any> => {
     console.log("onBioLoad");
+    return new Promise<object>((resolve, reject) => {
+        reject({ "varun is king": "123" })
+    });
 }
 
 // Object.fromEntries(FormData)
+// const urlEncoded=new URLSearchParams(form);
 // const params: requestParams = {
 //     method: "POST",
 //     url: "http://localhost:3000/api/profile/update",

@@ -8,7 +8,7 @@ import { onBioLoad } from '../bio-page/index.tsx';
 import { dashboardScreenName } from "./types.ts";
 
 
-const getProfileLoader = async (screenName: any): Promise<Function> => {
+const getProfileLoader = (screenName: any) => {
     switch (screenName) {
         case dashboardScreenName.bio:
             return onBioLoad;
@@ -25,7 +25,7 @@ const getProfileLoader = async (screenName: any): Promise<Function> => {
         case dashboardScreenName.skill:
             return onSkillsetLoad;
         default:
-            return onSkillsetLoad;
+            throw new Error("Invalid profile");
     }
 };
 

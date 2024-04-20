@@ -24,6 +24,9 @@ const Skillset: React.FC = () => {
 }
 export default Skillset;
 
-export const onSkillsetLoad = () => {
+export const onSkillsetLoad = (): Promise<any> => {
     console.log("skillset loaded")
+    return new Promise<object>((resolve, reject) => {
+        resolve({})
+    });
 }
