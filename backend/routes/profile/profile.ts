@@ -42,8 +42,12 @@ const postProfileData = async (req: any, res: any) => {
             resume: req.files && req?.files[0]?.fieldname && req?.files[0]?.originalname && req.finalFilename ?
                req.finalFilename : ""
          }
-         // const currentFileName = file_name_generator(req?.files[0]?.fieldname, req?.files[0].originalname)
-         if (req?.files[0].originalname != user.resume.split('_')[3]) {
+         console.log("users are1",payload)
+         console.log("req1",req?.files)
+         if (req?.files&& 
+            req.files[0]&&
+            req.files[0]?.originalname&&
+            (req?.files[0].originalname != user.resume.split('_')[3])) {
             // console.log("file changed")
             removeFile(user.resume);
          }else{
@@ -51,24 +55,34 @@ const postProfileData = async (req: any, res: any) => {
             //delete that also 
             // removeFile(req.filename);
             //previouse file was there and remove insertion
+            //same but not empty name 
+             if(req?.files&& 
+               req.files[0]&&
+               req.files[0]?.originalname&&
+               (req.files[0].originalname!='')){
               removeFile(req.finalFilename);
+             }
               payload={
                ...req.body
               }
+              delete payload["resume"];
          }
          //now do another updation of data
+         console.log("users are",payload)
          const updatedUser = await prisma.myProfile.update({
             where: {
                id: user.id
             },
             data: payload
          })
+         console.log("User Updated Successfully",updatedUser)
          res.status(200).json({
             meta: 1,
             status: "Sucess",
             message: "User Updated Successfully",
             data: updatedUser
          })
+         
          
       }
    } catch (err: any) {

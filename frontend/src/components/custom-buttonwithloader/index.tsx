@@ -7,6 +7,7 @@ type ButtonProps = {
     formMethod: string;
     formAction?: string;
     disabled?: boolean;
+    onClick?: Function;
 }
 
 
@@ -21,7 +22,7 @@ const ButtonCustom: React.FC = (props: ButtonProps) => {
             disabled={props.disabled || false}
             formMethod={props.formMethod || 'POST'}
             className="flex flex-1 mx-2 my-2 px-2 py-2 justify-center align-middle bg-white"
-
+            onClick={props.onClick}
         >{props.name || 'Submit form'}</button>
     )
 }

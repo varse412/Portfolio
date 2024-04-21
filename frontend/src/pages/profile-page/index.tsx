@@ -4,8 +4,10 @@ import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
 import { createRequest, requestParams } from "../../services/createRequests/index.ts"
-import { getFormData } from "../../utils/getFormData.ts"
 import { backendBaseURL } from "../../../constants.ts"
+import { useFetcher, useLoaderData, useLocation,useNavigate, Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import PageLoader from "../../components/page-loader/index.tsx"
 // import axios from "axios"
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -21,131 +23,219 @@ const schemaProfile = z.object({
     resume: z.any(z.instanceof(File)),
 })
 type FormFields = z.infer<typeof schemaProfile>
+const dummyState = {
+    bio: "not fetched",
+    email: "not fetched",
+    githubURL: "not fetched",
+    id: "not fetched",
+    linkedInURL: "not fetched",
+    mobile: "not fetched",
+    name: "not fetched",
+    resume: "not fetched",
+    resumeLink: "not fetched",
+    title: "not fetched",
+    website: "not fetched",
+}
 const userProfile: React.FC = () => {
-    const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
-        resolver: zodResolver(schemaProfile)
-    })
-    const submitForm: SubmitHandler<FormFields> = async (data: any) => {
-
-        try {
-            var form = document.querySelector('form');
-            const params: requestParams = {
-                method: "POST",
-                url: `${backendBaseURL}/api/profile/update`,
-                data: form,
-            }
-            const response = await createRequest(params)
-            console.log("res", response)
-            //we will perform loader reresh after we do this 
-
-        } catch (error) {
-            //to handle 
-            console.log("can't log data")
+    const navigate = useNavigate();
+    const fetcher = useFetcher();
+    const currentLocation = useLocation();
+    const loaderData = useLoaderData() as object
+    // const history = useHistory()
+    const [data, setData] = useState<object>(loaderData?.data || dummyState)
+    const[locator,setLocator]=useState<Function>(()=>{
+        // window.location.reload();
+       return ()=>{
+        setTimeout(() => {
+            // window.location.href = urlFromBackend;
+            // navigate(0);
+            const url=`${backendBaseURL}/api/images/${loaderData?.data?.resume}`
+            window.location.href=url;
+            // return false;
+          }, 1000);
+       
+        
         }
+    })
+    useEffect(() => {
+        setData(
+            {
+                bio: data?.bio || dummyState.bio,
+                email: data?.email || dummyState.email,
+                githubURL: data?.githubURL || dummyState.githubURL,
+                id: data?.id || dummyState.id,
+                linkedInURL: data?.linkedInURL || dummyState.linkedInURL,
+                mobile: data?.mobile || dummyState.mobile,
+                name: data?.name || dummyState.name,
+                resume: data?.resume || dummyState.resume,
+                resumeLink: data?.resumeLink || dummyState.resumeLink,
+                title: data?.title || dummyState.title,
+                website: data?.website || dummyState.website,
+            }
+        )
+        console.log("data.resume",data?.resume)
+        setLocator(()=>{
+            // window.location.reload();
+           return ()=>{
+            setTimeout(() => {
+                // window.location.href = urlFromBackend;
+                // navigate(0);
+                const url=`${backendBaseURL}/api/images/${data?.resume}`
+                window.location.href=url;
+                // return false;
+              }, 1000);
+           
+            
+            }
+        })
+       
+    }, [loaderData])
+    
+    const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+                resolver: zodResolver(schemaProfile),
+                defaultValues: data
+            })
+                const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
+                try {
+                    var form = document.querySelector('form');
+                    const params: requestParams = {
+                        method: "POST",
+                        url: `${backendBaseURL}/api/profile/update`,
+                        data: form,
+                    }
+                    const response = await createRequest(params)
+                    // console.log("res", response)
+    
+                    fetcher.load(currentLocation.pathname)
+                } catch (error) {
+                    //to handle 
+                    console.log("can't log data")
+                }
+            }
 
-    }
     return (
-        <div className="flex flex-1 justify-center align-middle bg-green-800">
-            <form className="flex flex-col  bg-red-600 my-2 "
-                id="profileForm"
-                onSubmit={handleSubmit(submitForm)}
-            >
-
-                <InputCustom
-                    labelfor="name"
-                    label="name"
-                    inputType="text"
-                    placeholder="Enter your name"
-                    register={register}
-                    errorMessage={errors.name?.message}
-                />
-                <InputCustom
-                    labelfor="email"
-                    label="email"
-                    inputType="text"
-                    placeholder="Enter your email"
-                    register={register}
-                    errorMessage={errors.email?.message}
-                />
-                <InputCustom
-                    labelfor="bio"
-                    label="bio"
-                    inputType="text"
-                    placeholder="Enter your Bio"
-                    register={register}
-                    errorMessage={errors.bio?.message}
-                />
-                <InputCustom
-                    labelfor="title"
-                    label="title"
-                    inputType="text"
-                    placeholder="Enter your Title"
-                    register={register}
-                    errorMessage={errors.title?.message}
-                />
-                <InputCustom
-                    labelfor="mobile"
-                    label="mobile"
-                    inputType="number"
-                    placeholder="Enter your Mobile"
-                    register={register}
-                    errorMessage={errors.mobile?.message}
-                />
-                <InputCustom
-                    labelfor="githubURL"
-                    label="githubURL"
-                    inputType="url"
-                    placeholder="Enter your Github URL"
-                    register={register}
-                    errorMessage={errors.githubURL?.message}
-                />
-                <InputCustom
-                    labelfor="linkedInURL"
-                    label="linkedInURL"
-                    inputType="url"
-                    placeholder="Enter your LinkedIn URL"
-                    register={register}
-                    errorMessage={errors.linkedInURL?.message}
-                />
-                <InputCustom
-                    labelfor="website"
-                    label="website"
-                    inputType="url"
-                    placeholder="Enter your Website"
-                    register={register}
-                    errorMessage={errors.website?.message}
-                />
-                <InputCustom
-                    labelfor="resumeLink"
-                    label="resumeLink"
-                    inputType="url"
-                    placeholder="Enter your Resume Link"
-                    register={register}
-                    errorMessage={errors.resumeLink?.message}
-                />
-                <InputCustom
-                    labelfor="resume"
-                    label="resume"
-                    inputType="file"
-                    placeholder="Enter your Resume"
-                    register={register}
-                    errorMessage={errors.resume?.message}
-                />
-                <ButtonCustom
-                    type={"submit"}
-                    value={"updateProfile"}
-                    name={"Update Profile"}
-                    formId={"profileForm"}
-                />
-            </form>
+        <div className="flex flex-1 flex-col justify-center align-middle bg-green-800">
+            {fetcher.state == "loading" ? <PageLoader /> :
+                <form className="flex flex-col  bg-red-600 my-2 "
+                    id="profileForm"
+                    onSubmit={handleSubmit(submitForm)}
+                >
+                    <InputCustom
+                        labelfor="name"
+                        label="name"
+                        inputType="text"
+                        placeholder="Enter your name"
+                        register={register}
+                        errorMessage={errors.name?.message}
+                    />
+                    <InputCustom
+                        labelfor="email"
+                        label="email"
+                        inputType="text"
+                        placeholder="Enter your email"
+                        register={register}
+                        errorMessage={errors.email?.message}
+                    />
+                    <InputCustom
+                        labelfor="bio"
+                        label="bio"
+                        inputType="text"
+                        placeholder="Enter your Bio"
+                        register={register}
+                        errorMessage={errors.bio?.message}
+                    />
+                    <InputCustom
+                        labelfor="title"
+                        label="title"
+                        inputType="text"
+                        placeholder="Enter your Title"
+                        register={register}
+                        errorMessage={errors.title?.message}
+                    />
+                    <InputCustom
+                        labelfor="mobile"
+                        label="mobile"
+                        inputType="number"
+                        placeholder="Enter your Mobile"
+                        register={register}
+                        errorMessage={errors.mobile?.message}
+                    />
+                    <InputCustom
+                        labelfor="githubURL"
+                        label="githubURL"
+                        inputType="url"
+                        placeholder="Enter your Github URL"
+                        register={register}
+                        errorMessage={errors.githubURL?.message}
+                    />
+                    <InputCustom
+                        labelfor="linkedInURL"
+                        label="linkedInURL"
+                        inputType="url"
+                        placeholder="Enter your LinkedIn URL"
+                        register={register}
+                        errorMessage={errors.linkedInURL?.message}
+                    />
+                    <InputCustom
+                        labelfor="website"
+                        label="website"
+                        inputType="url"
+                        placeholder="Enter your Website"
+                        register={register}
+                        errorMessage={errors.website?.message}
+                    />
+                    <InputCustom
+                        labelfor="resumeLink"
+                        label="resumeLink"
+                        inputType="url"
+                        placeholder="Enter your Resume Link"
+                        register={register}
+                        errorMessage={errors.resumeLink?.message}
+                    />
+                    <InputCustom
+                        labelfor="resume"
+                        label="resume"
+                        inputType="file"
+                        placeholder="Enter your Resume"
+                        register={register}
+                        errorMessage={errors.resume?.message}
+                    />
+                    <ButtonCustom
+                        type={"submit"}
+                        value={"updateProfile"}
+                        name={"Update Profile"}
+                        formId={"profileForm"}
+                    />
+                </form>     
+            }
+            {fetcher.state == "loading" ? null :<ButtonCustom
+                type={"button"}
+                value={"View Resume"}
+                name={"View Resume"}
+                onClick={() => locator()}
+            />}
+            {fetcher.state == "loading" ? null :<a href={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</a>}
+            {fetcher.state == "loading" ? null :<Link to={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</Link>}
         </div>
     )
+   
 }
 export default userProfile;
 export const onUserProfileLoad = (): Promise<any> => {
-    console.log("onBioLoad");
-    return new Promise<object>((resolve, reject) => {
-        reject({ "varun is king": "123" })
+    return new Promise<object>(async (resolve, reject) => {
+        try {
+            const params: requestParams = {
+                method: "GET",
+                url: `${backendBaseURL}/api/profile`,
+            }
+            const response = await createRequest(params)
+            resolve(response)
+        } catch (error) {
+            reject({
+                status: 100,
+                statusText: error || "Can't perform data fetching"
+            })
+        }
     });
 }
 
@@ -196,3 +286,221 @@ export const onUserProfileLoad = (): Promise<any> => {
 //     resumeLink: data.resumeLink,
 //     resume: data.resume,
 // }
+
+{/* {data?.resume ?<ButtonCustom
+                    type={"submit"}
+                    value={data?.resume}
+                    name={"Update Profile"}
+                    formId={"profileForm"}
+                />: <button onclick="location.href='http://www.example.com'" type="button">
+                www.example.com</button>
+                } */}
+{/* <button onClick={() => location.href = `${backendBaseURL}/api/images/${data?.resume}`} type="button">
+                    www.example.com</button> */}
+
+{/* <img src={`${backendBaseURL}/api/images/${loaderData?.resume}`} alt="" />
+                <ButtonCustom
+                    type={"button"}
+                    value={"View Resume"}
+                    name={"View Resume"}
+                    onClick={() => {
+                        // console.log("resumeeee", resumeLink);
+                        // window.location.href = resumeLink; 
+                        window.location.assign(resumeLink);
+                        return false;
+                    }}
+                /> */}
+
+
+                // if (fetcher.state === "loading") {
+                //     return <PageLoader />
+                // } else {
+            
+                //     const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+                //         resolver: zodResolver(schemaProfile),
+                //         defaultValues: {
+                //             bio: loaderData?.bio || dummyState.bio,
+                //             email: loaderData?.email || dummyState.email,
+                //             githubURL: loaderData?.githubURL || dummyState.githubURL,
+                //             id: loaderData?.id || dummyState.id,
+                //             linkedInURL: loaderData?.linkedInURL || dummyState.linkedInURL,
+                //             mobile: loaderData?.mobile || dummyState.mobile,
+                //             name: loaderData?.name || dummyState.name,
+                //             resume: loaderData?.resume || dummyState.resume,
+                //             resumeLink: loaderData?.resumeLink || dummyState.resumeLink,
+                //             title: loaderData?.title,
+                //             website: loaderData?.website,
+                //         }
+                //     })
+                //     const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
+                //         try {
+                //             var form = document.querySelector('form');
+                //             const params: requestParams = {
+                //                 method: "POST",
+                //                 url: `${backendBaseURL}/api/profile/update`,
+                //                 data: form,
+                //             }
+                //             const response = await createRequest(params)
+                //             // console.log("res", response)
+            
+                //             fetcher.load(currentLocation.pathname)
+                //         } catch (error) {
+                //             //to handle 
+                //             console.log("can't log data")
+                //         }
+                //     }
+                //     return (
+                //         <div className="flex flex-1 flex-col justify-center align-middle bg-green-800">
+                //             <form className="flex flex-col  bg-red-600 my-2 "
+                //                 id="profileForm"
+                //                 onSubmit={handleSubmit(submitForm)}
+                //             >
+                //                 <InputCustom
+                //                     labelfor="name"
+                //                     label="name"
+                //                     inputType="text"
+                //                     placeholder="Enter your name"
+                //                     register={register}
+                //                     errorMessage={errors.name?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="email"
+                //                     label="email"
+                //                     inputType="text"
+                //                     placeholder="Enter your email"
+                //                     register={register}
+                //                     errorMessage={errors.email?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="bio"
+                //                     label="bio"
+                //                     inputType="text"
+                //                     placeholder="Enter your Bio"
+                //                     register={register}
+                //                     errorMessage={errors.bio?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="title"
+                //                     label="title"
+                //                     inputType="text"
+                //                     placeholder="Enter your Title"
+                //                     register={register}
+                //                     errorMessage={errors.title?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="mobile"
+                //                     label="mobile"
+                //                     inputType="number"
+                //                     placeholder="Enter your Mobile"
+                //                     register={register}
+                //                     errorMessage={errors.mobile?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="githubURL"
+                //                     label="githubURL"
+                //                     inputType="url"
+                //                     placeholder="Enter your Github URL"
+                //                     register={register}
+                //                     errorMessage={errors.githubURL?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="linkedInURL"
+                //                     label="linkedInURL"
+                //                     inputType="url"
+                //                     placeholder="Enter your LinkedIn URL"
+                //                     register={register}
+                //                     errorMessage={errors.linkedInURL?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="website"
+                //                     label="website"
+                //                     inputType="url"
+                //                     placeholder="Enter your Website"
+                //                     register={register}
+                //                     errorMessage={errors.website?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="resumeLink"
+                //                     label="resumeLink"
+                //                     inputType="url"
+                //                     placeholder="Enter your Resume Link"
+                //                     register={register}
+                //                     errorMessage={errors.resumeLink?.message}
+                //                 />
+                //                 <InputCustom
+                //                     labelfor="resume"
+                //                     label="resume"
+                //                     inputType="file"
+                //                     placeholder="Enter your Resume"
+                //                     register={register}
+                //                     errorMessage={errors.resume?.message}
+                //                 />
+                //                 <ButtonCustom
+                //                     type={"submit"}
+                //                     value={"updateProfile"}
+                //                     name={"Update Profile"}
+                //                     formId={"profileForm"}
+                //                 />
+                //             </form>
+                //             {/* <img src={`${backendBaseURL}/api/images/${loaderData?.resume}`} alt="" />
+                //             <ButtonCustom
+                //                 type={"button"}
+                //                 value={"View Resume"}
+                //                 name={"View Resume"}
+                //                 onClick={() => {
+                //                     // console.log("resumeeee", resumeLink);
+                //                     // window.location.href = resumeLink; 
+                //                     window.location.assign(resumeLink);
+                //                     return false;
+                //                 }}
+                //             /> */}
+                //         </div>
+                //     )
+                // }
+
+
+
+                // console.log("ld", loaderData);
+
+    // const [resumeLink, setResumeLink] = useState<string>("")
+    // console.log("resume", data?.resume)
+    // useEffect(() => {
+    //     setData(
+    //         {
+    //             bio: data?.bio || dummyState.bio,
+    //             email: data?.email || dummyState.email,
+    //             githubURL: data?.githubURL || dummyState.githubURL,
+    //             id: data?.id || dummyState.id,
+    //             linkedInURL: data?.linkedInURL || dummyState.linkedInURL,
+    //             mobile: data?.mobile || dummyState.mobile,
+    //             name: data?.name || dummyState.name,
+    //             resume: data?.resume || dummyState.resume,
+    //             resumeLink: data?.resumeLink || dummyState.resumeLink,
+    //             title: data?.title || dummyState.title,
+    //             website: data?.website || dummyState.website,
+    //         }
+    //     )
+    //     setResumeLink(resumeLink => `${backendBaseURL}/api/images/${data?.resume}`)
+    // }, [loaderData])
+    // useEffect(() => {
+    //     setResumeLink(`${backendBaseURL}/api/images/${data?.resume}`)
+    // }, [loaderData])
+    // useEffect(() => {
+    //     fetcher.load(currentLocation.pathname)
+    // }, [loaderData])
+    // {
+    //     bio: loaderData?.bio || dummyState.bio,
+    //     email: loaderData?.email || dummyState.email,
+    //     githubURL: loaderData?.githubURL || dummyState.githubURL,
+    //     id: loaderData?.id || dummyState.id,
+    //     linkedInURL: loaderData?.linkedInURL || dummyState.linkedInURL,
+    //     mobile: loaderData?.mobile || dummyState.mobile,
+    //     name: loaderData?.name || dummyState.name,
+    //     resume: loaderData?.resume || dummyState.resume,
+    //     resumeLink: loaderData?.resumeLink || dummyState.resumeLink,
+    //     title: loaderData?.title || dummyState.title,
+    //     website: loaderData?.website || dummyState.website,
+    // }
+    // useEffect(()=>{
+
+    // })

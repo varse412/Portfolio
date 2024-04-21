@@ -22,10 +22,10 @@ const router = createBrowserRouter([
           const profileLoaderFunction = getProfileLoader(params.profile)
           try {
             const val = await profileLoaderFunction();
-            console.log("val", val)
+            console.log("val in loader", val)
             return val
           } catch (err) {
-            console.log("err", err)
+            console.log("err in loader", err)
             return err
           }
         },
