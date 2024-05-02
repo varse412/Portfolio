@@ -1,12 +1,14 @@
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useEffect } from "react";
 import InputCustom from "../../components/custom-input-witherror/index.tsx"
 import { SubmitHandler, useForm } from "react-hook-form"
 import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useOutletContext, useParams } from "react-router-dom";
 import { useRouteMatch } from "../../utils/routeMatcher";
 import { EachElement } from "../../utils/Each.tsx";
+import { backendBaseURL } from "../../../constants.ts";
+import { createRequest, requestParams } from "../../services/createRequests/index.ts";
 
 const schemaProfile = z.object({
    id: z.any().optional(),
@@ -23,9 +25,14 @@ const schemaProfile = z.object({
 type FormFields = z.infer<typeof schemaProfile>
 const EditProject: React.FC = (): ReactElement => {
    const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
+   // const [value, setValue] = useOutletContext();
+   // console.log("profile", location.pathname, "+++", data)
+   //  console.log("ls is@@@@", state);
+   // const {id,pathname} = useRouteMatch();
+   // ...{ true ? : defaultValues: { } }
    const { profile } = useParams()
    const location = useLocation();
-   console.log("profile", location.pathname)
+   const { state } = location || {};
    let pathType: string = "";
    if (location.pathname.endsWith("add")) {
       console.log("add is open")
@@ -36,17 +43,50 @@ const EditProject: React.FC = (): ReactElement => {
       pathType = idused;
       console.log("id for edit is open", idused)
    }
-   // const {id,pathname} = useRouteMatch();
-   const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
-      resolver: zodResolver(schemaProfile)
+
+   const { handleSubmit, register, formState: { errors }, reset } = useForm<FormFields>({
+      resolver: zodResolver(schemaProfile),
+      // defaultValues: {pathType == "add"?...state.data: ...{}}
+      defaultValues: {}
    })
-   const submitForm: SubmitHandler<FormFields> = (data: any) => {
+   useEffect(() => {
+      if (pathType != "add") {
+         // reset(defaultValues, state.data)
+         reset(state.data, { keepValues: false, keepDefaultValues: true })
+      } else {
+         reset();
+      }
+   }, [state])
+   const submitForm: SubmitHandler<FormFields> = async (data: any) => {
       const formData = document.querySelector("form");
-      console.log("data is", data)
+      console.log("data is", Object.fromEntries(formData))
       if (pathType == "add") {
          //make post request 
-      } else {
+         try {
+            const params: requestParams = {
+               method: "POST",
+               url: `${backendBaseURL}/api/projects/add`,
+               data: formData,
+            }
 
+            const response = await createRequest(params)
+         } catch (err) {
+            console.log("error can't perform anything")
+         }
+      } else {
+         //edit the profile with given id 
+         //delete its previous photo if added  if same don't do anything
+         console.log("in id@@", `${backendBaseURL}/api/projects/edit/${state.data.id}`)
+         try {
+            const params: requestParams = {
+               method: "POST",
+               url: `${backendBaseURL}/api/projects/edit/${state.data.id}`,
+               data: formData,
+            }
+            const response = await createRequest(params)
+         } catch (err) {
+            console.log("error in edit", err)
+         }
       }
    }
 
@@ -126,7 +166,7 @@ const EditProject: React.FC = (): ReactElement => {
             <ButtonCustom
                type={"submit"}
                value={"updateProfile"}
-               name={"Update Profile"}
+               name={pathType == 'add' ? "Add project" : "Update project"}
                formId={"profileForm"}
             />
          </form>

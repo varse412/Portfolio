@@ -26,3 +26,22 @@ model myProfile {
   resumeLink  String
   resume      String
 }
+
+model project {
+  id                 String         @id @default(uuid())
+  projectName        String
+  developmentType    String
+  projectDescription String
+  githubURL          String
+  liveURL            String
+  demoVideo          String
+  picture            String
+  softwareUsed       projectStack[]
+}
+
+model projectStack {
+  id        Int      @id @default(autoincrement())
+  name      String
+  project   project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}

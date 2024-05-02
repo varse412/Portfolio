@@ -85,7 +85,9 @@ const postProfileData = async (req: any, res: any) => {
          
          
       }
+      await prisma.$disconnect()
    } catch (err: any) {
+      await prisma.$disconnect()
       res.status(200).json({
          meta: 0,
          status: "failure",
