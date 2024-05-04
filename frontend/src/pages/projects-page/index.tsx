@@ -22,10 +22,11 @@ const Projects: FC = (): ReactElement => {
         setData(loaderData.data)
     }, [loaderData, fetcher.state])
     // const [value, setValue] = useState<any>({})
+    console.log("data", data);
     return (
         <div className="bg-slate-500 flex flex-1 flex-row justify-evenly align-middle flex-wrap">
             {match ? <Link to={`${location.pathname}/add`}>+</Link> : null}
-            {match ? fetcher.state == 'idle' ? <EachElement
+            {match ? fetcher.state == 'idle' && data ? <EachElement
                 of={data}
                 render={(item, index) => (
                     <ProjectsWidget

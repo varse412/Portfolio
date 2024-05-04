@@ -41,6 +41,7 @@ const addProjectData = async (req: any, res: any) => {
             message: err.message
         })
     }
+
 }
 addProjectAppRouter.route('/projects/add').post(urlEncodedParser, uploadFile.any(), addProjectData)
 

@@ -42,6 +42,6 @@ model project {
 model projectStack {
   id        Int      @id @default(autoincrement())
   name      String
-  project   project? @relation(fields: [projectId], references: [id])
+  project   project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String?
 }

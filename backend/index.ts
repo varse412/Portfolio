@@ -13,6 +13,7 @@ const appRouter = require("./routes/profile/profile")
 const addProjectAppRouter = require("./routes/projects/addProject");
 const getProjectsAppRouter = require("./routes/projects/getProjects");
 const editProjectAppRouter = require("./routes/projects/editProject");
+const deleteProjectsAppRouter = require("./routes/projects/deleteProject");
 
 dotenv.config()
 const app = express()
@@ -44,6 +45,8 @@ app.use("/api", addProjectAppRouter)
 app.use("/api", getProjectsAppRouter)
 //edit project 
 app.use("/api", editProjectAppRouter)
+//delete project
+app.use("/api", deleteProjectsAppRouter);
 
 
 
