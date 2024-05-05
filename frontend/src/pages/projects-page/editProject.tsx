@@ -1,4 +1,4 @@
-import { ReactElement, FC, useEffect } from "react";
+import { ReactElement, FC, useEffect, useState } from "react";
 import InputCustom from "../../components/custom-input-witherror/index.tsx"
 import { SubmitHandler, useForm } from "react-hook-form"
 import z from "zod"
@@ -9,22 +9,65 @@ import { useRouteMatch } from "../../utils/routeMatcher";
 import { EachElement } from "../../utils/Each.tsx";
 import { backendBaseURL } from "../../../constants.ts";
 import { createRequest, requestParams } from "../../services/createRequests/index.ts";
+import {
+   Form,
+   FormControl,
+   FormDescription,
+   FormField,
+   FormItem,
+   FormLabel,
+   FormMessage,
+} from "@/components/ui/form"
+
 
 const schemaProfile = z.object({
    id: z.any().optional(),
    projectName: z.string().min(3),
    developmentType: z.string().min(3),
    projectDescription: z.string().min(20),
-   softwareUsed: z.array(z.string()),
    githubURL: z.string().url(),
    liveURL: z.string().url(),
    website: z.string().url().optional(),
    demoVideo: z.string().url(),
    picture: z.any(z.instanceof(File)),
+   items: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one item.",
+   }),
+   softwareUsed: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one item.",
+   }),
 })
+
 type FormFields = z.infer<typeof schemaProfile>
+const items = [
+   {
+      id: "recents",
+      label: "Recents",
+   },
+   {
+      id: "home",
+      label: "Home",
+   },
+   {
+      id: "applications",
+      label: "Applications",
+   },
+   {
+      id: "desktop",
+      label: "Desktop",
+   },
+   {
+      id: "downloads",
+      label: "Downloads",
+   },
+   {
+      id: "documents",
+      label: "Documents",
+   },
+] as const
 const EditProject: React.FC = (): ReactElement => {
-   const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
+   const [loader, setLoader] = useState<Boolean>(false)
+   // const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
    // const [value, setValue] = useOutletContext();
    // console.log("profile", location.pathname, "+++", data)
    //  console.log("ls is@@@@", state);
@@ -44,17 +87,24 @@ const EditProject: React.FC = (): ReactElement => {
       console.log("id for edit is open", idused)
    }
 
-   const { handleSubmit, register, formState: { errors }, reset } = useForm<FormFields>({
+   // const { handleSubmit, register, formState: { errors }, reset } = useForm<FormFields>({
+   //    resolver: zodResolver(schemaProfile),
+   //    // defaultValues: {pathType == "add"?...state.data: ...{}}
+   //    defaultValues: {}
+   // })
+   const form = useForm<FormFields>({
       resolver: zodResolver(schemaProfile),
-      // defaultValues: {pathType == "add"?...state.data: ...{}}
-      defaultValues: {}
+      defaultValues: {
+         softwareUsed: []
+      }
+
    })
    useEffect(() => {
       if (pathType != "add") {
          // reset(defaultValues, state.data)
-         reset(state.data, { keepValues: false, keepDefaultValues: true })
+         form.reset(state.data, { keepValues: false, keepDefaultValues: true })
       } else {
-         reset();
+         form.reset();
       }
    }, [state])
    const submitForm: SubmitHandler<FormFields> = async (data: any) => {
@@ -91,86 +141,83 @@ const EditProject: React.FC = (): ReactElement => {
    }
 
    return (
-      <div className="flex flex-1 justify-center align-middle bg-green-800">
-         <form className="flex flex-col  bg-red-600 my-2 "
-            id="profileForm"
-            onSubmit={handleSubmit(submitForm)}
-         >
+      <div className="flex flex-1 justify-center align-middle bg-white">
+         <Form {...form}>
+            <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
+               id="profileForm"
+               onSubmit={form.handleSubmit(submitForm)}
+            >
+               <InputCustom
+                  labelfor="projectName"
+                  label="projectName"
+                  inputType="text"
+                  placeholder="Enter your Project Name"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="developmentType"
+                  label="developmentType"
+                  inputType="text"
+                  placeholder="Enter your Project developmentType"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="projectDescription"
+                  label="projectDescription"
+                  inputType="text"
+                  placeholder="Enter your Project Description"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="softwareUsed"
+                  label="softwareUsed"
+                  inputType="search"
+                  placeholder="Enter your Project software Used"
+                  dataList
+                  dataListElements={items}
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="githubURL"
+                  label="githubURL"
+                  inputType="url"
+                  placeholder="Enter your Github URL"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="liveURL"
+                  label="liveURL"
+                  inputType="url"
+                  placeholder="Enter your live URL"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="demoVideo"
+                  label="demoVideo"
+                  inputType="url"
+                  placeholder="Enter your demoVideo"
+                  controls={form.control}
+               />
+               <InputCustom
+                  labelfor="picture"
+                  label="picture"
+                  inputType="file"
+                  placeholder="Enter your picture"
+                  controls={form.control}
+               />
+               <ButtonCustom
+                  type={"submit"}
+                  value={"updateProfile"}
+                  name={pathType == 'add' ? "Add project" : "Update project"}
+                  formId={"profileForm"}
+                  controls={form.control}
+                  disabled={true}
+                  disabledText={pathType == 'add' ? "Adding project" : "Updating project"}
+               />
+            </form>
+         </Form>
 
-            <InputCustom
-               labelfor="projectName"
-               label="projectName"
-               inputType="text"
-               placeholder="Enter your Project Name"
-               register={register}
-               errorMessage={errors.projectName?.message}
-            />
-            <InputCustom
-               labelfor="developmentType"
-               label="developmentType"
-               inputType="text"
-               placeholder="Enter your Project developmentType"
-               register={register}
-               errorMessage={errors.developmentType?.message}
-            />
-            <InputCustom
-               labelfor="projectDescription"
-               label="projectDescription"
-               inputType="text"
-               placeholder="Enter your Project Description"
-               register={register}
-               errorMessage={errors.projectDescription?.message}
-            />
-            <InputCustom
-               labelfor="softwareUsed"
-               label="softwareUsed"
-               inputType="search"
-               placeholder="Enter your Project software Used"
-               register={register}
-               errorMessage={errors.softwareUsed?.message}
-               dataList
-               dataListElements={items}
-            />
-            <InputCustom
-               labelfor="githubURL"
-               label="githubURL"
-               inputType="url"
-               placeholder="Enter your Github URL"
-               register={register}
-               errorMessage={errors.githubURL?.message}
-            />
-            <InputCustom
-               labelfor="liveURL"
-               label="liveURL"
-               inputType="url"
-               placeholder="Enter your live URL"
-               register={register}
-               errorMessage={errors.liveURL?.message}
-            />
-            <InputCustom
-               labelfor="demoVideo"
-               label="demoVideo"
-               inputType="url"
-               placeholder="Enter your demoVideo"
-               register={register}
-               errorMessage={errors.demoVideo?.message}
-            />
-            <InputCustom
-               labelfor="picture"
-               label="picture"
-               inputType="file"
-               placeholder="Enter your picture"
-               register={register}
-               errorMessage={errors.resume?.message}
-            />
-            <ButtonCustom
-               type={"submit"}
-               value={"updateProfile"}
-               name={pathType == 'add' ? "Add project" : "Update project"}
-               formId={"profileForm"}
-            />
-         </form>
-      </div>
+      </div >
    );
 }
 
@@ -190,4 +237,52 @@ export default EditProject;
 
 
 
+{/* <Form {...form}>
+            <form onSubmit={form.handleSubmit(submitForm)} className="w-2/3 space-y-6 ">
+               <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => {
+                     console.log("fsfsfsf----1", field)
+                     return (
+                        <FormItem>
 
+                           <FormLabel>Username</FormLabel>
+                           <FormControl>
+                              <Input placeholder="shadcn" {...field} />
+                           </FormControl>
+                           <FormDescription>
+                              This is your public display name.
+                           </FormDescription>
+                           <FormMessage />
+                        </FormItem>
+                     )
+                  }}
+               />
+               <FormField
+                  control={form.control}
+                  name="projectName"
+                  render={({ field }) => {
+                     console.log("fsfsfsf----1", field)
+                     return (
+                        <FormItem>
+
+                           <FormLabel>Username</FormLabel>
+                           <FormControl>
+                              <Input placeholder="shadcn" {...field} />
+                           </FormControl>
+                           <FormDescription>
+                              This is your public display name.
+                           </FormDescription>
+                           <FormMessage />
+                        </FormItem>
+                     )
+                  }}
+               />
+               {/* inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-gray-800 */}
+{/* <Button type="submit" className="rounded-[0.5rem] text-gray-50 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2 bg-gray-800 " >Submit</Button> */ }
+{/* <Button type="submit" className="bg-gray-800 rounded-[0.5rem] text-gray-50 font-medium text-sm px-5 py-2.5" >Submit</Button> */ }
+{/* <Button variant="outline">Button</Button> */ }
+//    <Button>Button</Button>
+// </form>
+//    </Form > * /}

@@ -1,69 +1,79 @@
-import { ReactElement,FC } from "react";
+import { ReactElement, FC } from "react";
 import InputCustom from "../../components/custom-input-witherror/index.tsx"
-import {SubmitHandler, useForm} from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import z from "zod"
-import {zodResolver} from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRouteMatch } from "../../utils/routeMatcher";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 
-const schemaProfile =z.object({
+const schemaProfile = z.object({
     id: z.any().optional(),
     nameOfCertificate: z.string().min(3),
     certificateLinkToDownload: z.string().url(),
     imageCertificate: z.any(z.instanceof(File)),
 })
-type FormFields=z.infer<typeof schemaProfile>
-const EditCertificate: React.FC=():ReactElement=>{
-    const items=["i1","i2","i3","i4","i5","i6","i7","i8"]
+type FormFields = z.infer<typeof schemaProfile>
+const EditCertificate: React.FC = (): ReactElement => {
+    const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
     const { profile } = useParams()
-    const {id,pathname} = useRouteMatch();
-    const {handleSubmit,register,formState:{errors}} =useForm<FormFields>({
-        resolver:zodResolver(schemaProfile)
+    const { id, pathname } = useRouteMatch();
+    // const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    //     resolver: zodResolver(schemaProfile)
+    // })
+    const form = useForm<FormFields>({
+        resolver: zodResolver(schemaProfile)
     })
-   const submitForm: SubmitHandler<FormFields>=(data:any) => {
-    console.log(data)
-   }
+    const submitForm: SubmitHandler<FormFields> = (data: any) => {
+        console.log(data)
+    }
     // console.log("profiler is ",profile)
     return (
-    <div className="flex flex-1 justify-center align-middle bg-green-800">
-      <form className="flex flex-col  bg-red-600 my-2 "
-         id="profileForm"
-         onSubmit={handleSubmit(submitForm)}
-        >
-   
-       <InputCustom 
-            labelfor="nameOfCertificate"
-            label="nameOfCertificate"
-            inputType="text"
-            placeholder="Enter name Of Certificate"
-            register={register}
-            errorMessage={errors.nameOfCertificate?.message}
-           />  
-     
-        <InputCustom
-           labelfor="certificateLinkToDownload"
-           label="certificateLinkToDownload"
-           inputType="url"
-           placeholder="Enter your certificate Link To Download"
-           register={register}
-           errorMessage={errors.certificateLinkToDownload?.message}
-           />
-        <InputCustom
-           labelfor="imageCertificate"
-           label="imageCertificate"
-           inputType="file"
-           placeholder="Enter your image of Certificate"
-           register={register}
-           errorMessage={errors.imageCertificate?.message}
-           />
-        <ButtonCustom
-          type={"submit"}
-          value={"updateProfile"}
-          name={"Update Profile"}
-          formId={"profileForm"}
-        />
-        </form>
+        <div className="flex flex-1 justify-center align-middle bg-white">
+            <Form {...form}>
+                <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
+                    id="profileForm"
+                    onSubmit={form.handleSubmit(submitForm)}
+                >
+                    <InputCustom
+                        labelfor="nameOfCertificate"
+                        label="nameOfCertificate"
+                        inputType="text"
+                        placeholder="Enter name Of Certificate"
+                        controls={form.control}
+                    />
+
+                    <InputCustom
+                        labelfor="certificateLinkToDownload"
+                        label="certificateLinkToDownload"
+                        inputType="url"
+                        placeholder="Enter your certificate Link To Download"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="imageCertificate"
+                        label="imageCertificate"
+                        inputType="file"
+                        placeholder="Enter your image of Certificate"
+                        controls={form.control}
+                    />
+                    <ButtonCustom
+                        type={"submit"}
+                        value={"updateProfile"}
+                        name={"Update Profile"}
+                        formId={"profileForm"}
+                    />
+                </form>
+            </Form>
         </div>
     );
 }
@@ -72,4 +82,3 @@ export default EditCertificate;
 
 
 
- 

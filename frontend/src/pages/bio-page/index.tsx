@@ -3,6 +3,15 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 const schemaProfile = z.object({
     id: z.any().optional(),
     title: z.string().min(3),
@@ -11,49 +20,51 @@ const schemaProfile = z.object({
 })
 type FormFields = z.infer<typeof schemaProfile>
 const Bio: React.FC = () => {
-    const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    // const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    //     resolver: zodResolver(schemaProfile)
+    // })
+    const form = useForm<FormFields>({
         resolver: zodResolver(schemaProfile)
     })
     const submitForm: SubmitHandler<FormFields> = (data: any) => {
         console.log(data)
     }
     return (
-        <div className="flex flex-1 justify-center align-middle bg-green-800">
-            <form className="flex flex-col  bg-red-600 my-2 "
-                id="profileForm"
-                onSubmit={handleSubmit(submitForm)}
-            >
-                <InputCustom
-                    labelfor="title"
-                    label="title"
-                    inputType="text"
-                    placeholder="Enter your Title"
-                    register={register}
-                    errorMessage={errors.title?.message}
-                />
-                <InputCustom
-                    labelfor="bio"
-                    label="bio"
-                    inputType="text"
-                    placeholder="Enter your Bio"
-                    register={register}
-                    errorMessage={errors.bio?.message}
-                />
-                <InputCustom
-                    labelfor="image"
-                    label="image"
-                    inputType="file"
-                    placeholder="Enter your image"
-                    register={register}
-                    errorMessage={errors.img?.message}
-                />
-                <ButtonCustom
-                    type={"submit"}
-                    value={"updateProfile"}
-                    name={"Update Bio Profile"}
-                    formId={"profileForm"}
-                />
-            </form>
+        <div className="flex flex-1 justify-center align-middle bg-white">
+            <Form {...form}>
+                <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
+                    id="profileForm"
+                    onSubmit={form.handleSubmit(submitForm)}
+                >
+                    <InputCustom
+                        labelfor="title"
+                        label="title"
+                        inputType="text"
+                        placeholder="Enter your Title"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="bio"
+                        label="bio"
+                        inputType="text"
+                        placeholder="Enter your Bio"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="image"
+                        label="image"
+                        inputType="file"
+                        placeholder="Enter your image"
+                        controls={form.control}
+                    />
+                    <ButtonCustom
+                        type={"submit"}
+                        value={"updateProfile"}
+                        name={"Update Bio Profile"}
+                        formId={"profileForm"}
+                    />
+                </form>
+            </Form>
         </div>
     )
 }

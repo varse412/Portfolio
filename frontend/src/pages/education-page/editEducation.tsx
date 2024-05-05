@@ -6,6 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
 import { useParams } from "react-router-dom";
 import { useRouteMatch } from "../../utils/routeMatcher";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -21,7 +30,10 @@ const EditEducation: React.FC = (): ReactElement => {
     const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
     const { profile } = useParams()
     const { id, pathname } = useRouteMatch();
-    const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    // const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    //     resolver: zodResolver(schemaProfile)
+    // })
+    const form = useForm<FormFields>({
         resolver: zodResolver(schemaProfile)
     })
     const submitForm: SubmitHandler<FormFields> = (data: any) => {
@@ -29,72 +41,67 @@ const EditEducation: React.FC = (): ReactElement => {
     }
     // console.log("profiler is ",profile)
     return (
-        <div className="flex flex-1 justify-center align-middle bg-green-800">
-            <form className="flex flex-col  bg-red-600 my-2 "
-                id="profileForm"
-                onSubmit={handleSubmit(submitForm)}
-            >
+        <div className="flex flex-1 justify-center align-middle bg-white">
+            <Form {...form}>
+                <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
+                    id="profileForm"
+                    onSubmit={form.handleSubmit(submitForm)}>
 
-                <InputCustom
-                    labelfor="schoolName"
-                    label="schoolName"
-                    inputType="text"
-                    placeholder="Enter name Of school"
-                    register={register}
-                    errorMessage={errors.schoolName?.message}
-                />
-                <InputCustom
-                    labelfor="degree"
-                    label="degree"
-                    inputType="text"
-                    placeholder="Enter name Of degree"
-                    register={register}
-                    errorMessage={errors.degree?.message}
-                />
-                <InputCustom
-                    labelfor="description"
-                    label="description"
-                    inputType="url"
-                    placeholder="Enter your certificate Link To Download"
-                    register={register}
-                    errorMessage={errors.certificateLinkToDownload?.message}
-                />
-                <InputCustom
-                    labelfor="startDate"
-                    label="startDate"
-                    inputType="date"
-                    placeholder="Enter your start Date"
-                    register={register}
-                    errorMessage={errors.startDate?.message}
-                />
-                <InputCustom
-                    labelfor="endDate"
-                    label="endDate"
-                    inputType="date"
-                    placeholder="Enter your end Date"
-                    register={register}
-                    errorMessage={errors.endDate?.message}
-                />
-                 <InputCustom
-                    labelfor="companyImage"
-                    label="companyImage"
-                    inputType="file"
-                    placeholder="Enter your company Image"
-                    register={register}
-                    errorMessage={errors.companyImage?.message}
-                />
-                <ButtonCustom
-                    type={"submit"}
-                    value={"updateProfile"}
-                    name={"Update Profile"}
-                    formId={"profileForm"}
-                />
-            </form>
+
+                    <InputCustom
+                        labelfor="schoolName"
+                        label="schoolName"
+                        inputType="text"
+                        placeholder="Enter name Of school"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="degree"
+                        label="degree"
+                        inputType="text"
+                        placeholder="Enter name Of degree"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="description"
+                        label="description"
+                        inputType="url"
+                        placeholder="Enter your certificate Link To Download"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="startDate"
+                        label="startDate"
+                        inputType="date"
+                        placeholder="Enter your start Date"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="endDate"
+                        label="endDate"
+                        inputType="date"
+                        placeholder="Enter your end Date"
+                        controls={form.control}
+                    />
+                    <InputCustom
+                        labelfor="companyImage"
+                        label="companyImage"
+                        inputType="file"
+                        placeholder="Enter your company Image"
+                        controls={form.control}
+                    />
+                    <ButtonCustom
+                        type={"submit"}
+                        value={"updateProfile"}
+                        name={"Update Profile"}
+                        formId={"profileForm"}
+                    />
+                </form>
+            </Form>
         </div>
     );
 }
 
 export default EditEducation;
-
 
 

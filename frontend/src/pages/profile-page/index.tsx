@@ -8,6 +8,15 @@ import { backendBaseURL } from "../../../constants.ts"
 import { useFetcher, useLoaderData, useLocation,useNavigate, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import PageLoader from "../../components/page-loader/index.tsx"
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+ } from "@/components/ui/form"
 // import axios from "axios"
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -91,10 +100,14 @@ const userProfile: React.FC = () => {
        
     }, [loaderData])
     
-    const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
-                resolver: zodResolver(schemaProfile),
-                defaultValues: data
-            })
+    // const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
+    //             resolver: zodResolver(schemaProfile),
+    //             defaultValues: data
+    //         })
+    const form= useForm<FormFields>({
+        resolver: zodResolver(schemaProfile),
+        defaultValues: data
+    })
                 const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
                 try {
                     var form = document.querySelector('form');
@@ -114,91 +127,82 @@ const userProfile: React.FC = () => {
             }
 
     return (
-        <div className="flex flex-1 flex-col justify-center align-middle bg-green-800">
+        <div className="flex flex-1 justify-center align-middle bg-white">
             {fetcher.state == "loading" ? <PageLoader /> :
-                <form className="flex flex-col  bg-red-600 my-2 "
-                    id="profileForm"
-                    onSubmit={handleSubmit(submitForm)}
-                >
+               <Form {...form}>
+               <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
+                  id="profileForm"
+                  onSubmit={form.handleSubmit(submitForm)}
+               >
                     <InputCustom
                         labelfor="name"
                         label="name"
                         inputType="text"
                         placeholder="Enter your name"
-                        register={register}
-                        errorMessage={errors.name?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="email"
                         label="email"
                         inputType="text"
                         placeholder="Enter your email"
-                        register={register}
-                        errorMessage={errors.email?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="bio"
                         label="bio"
                         inputType="text"
                         placeholder="Enter your Bio"
-                        register={register}
-                        errorMessage={errors.bio?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="title"
                         label="title"
                         inputType="text"
                         placeholder="Enter your Title"
-                        register={register}
-                        errorMessage={errors.title?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="mobile"
                         label="mobile"
                         inputType="number"
                         placeholder="Enter your Mobile"
-                        register={register}
-                        errorMessage={errors.mobile?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="githubURL"
                         label="githubURL"
                         inputType="url"
                         placeholder="Enter your Github URL"
-                        register={register}
-                        errorMessage={errors.githubURL?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="linkedInURL"
                         label="linkedInURL"
                         inputType="url"
                         placeholder="Enter your LinkedIn URL"
-                        register={register}
-                        errorMessage={errors.linkedInURL?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="website"
                         label="website"
                         inputType="url"
                         placeholder="Enter your Website"
-                        register={register}
-                        errorMessage={errors.website?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="resumeLink"
                         label="resumeLink"
                         inputType="url"
                         placeholder="Enter your Resume Link"
-                        register={register}
-                        errorMessage={errors.resumeLink?.message}
+                        controls={form.control}
                     />
                     <InputCustom
                         labelfor="resume"
                         label="resume"
                         inputType="file"
                         placeholder="Enter your Resume"
-                        register={register}
-                        errorMessage={errors.resume?.message}
+                        controls={form.control}
                     />
                     <ButtonCustom
                         type={"submit"}
@@ -206,7 +210,8 @@ const userProfile: React.FC = () => {
                         name={"Update Profile"}
                         formId={"profileForm"}
                     />
-                </form>     
+                </form>   
+                </Form>  
             }
             {fetcher.state == "loading" ? null :<ButtonCustom
                 type={"button"}
@@ -238,6 +243,7 @@ export const onUserProfileLoad = (): Promise<any> => {
         }
     });
 }
+
 
 // Object.fromEntries(FormData)
 // const urlEncoded=new URLSearchParams(form);
