@@ -7,6 +7,8 @@ import { Link, Outlet, useFetcher, useLoaderData, useLocation, useNavigation, us
 import { useRouteMatch } from "../../utils/routeMatcher.tsx";
 import { createRequest, requestParams } from "../../services/createRequests/index.ts";
 import { backendBaseURL } from "../../../constants.ts";
+import { Button } from "@/components/ui/button"
+import { CirclePlus } from "lucide-react";
 const Projects: FC = (): ReactElement => {
     const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
     const { profile } = useParams()
@@ -25,7 +27,11 @@ const Projects: FC = (): ReactElement => {
     console.log("data", data);
     return (
         <div className="bg-slate-500 flex flex-1 flex-row justify-evenly align-middle flex-wrap">
-            {match ? <Link to={`${location.pathname}/add`}>+</Link> : null}
+            {match ? <Button className="flex sticky top-4 mt-4 justify-center items-center align-middle">
+                <Link to={`${location.pathname}/add`} className="flex flex-row">
+                    <CirclePlus className="mr-2 h-4 w-4" />Add
+                </Link>
+            </Button> : null}
             {match ? fetcher.state == 'idle' && data ? <EachElement
                 of={data}
                 render={(item, index) => (

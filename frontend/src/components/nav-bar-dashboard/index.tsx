@@ -138,247 +138,249 @@ export function NavbarDashboard() {
 
 export function NavbarMenu() {
     return (
-        <DropdownMenu  >
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline"><Menu /></Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        {/* <UserPlus className="mr-2 h-4 w-4" /> */}
-                                        <span>Types</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <Link to={'profiles/myProfile'}> <DropdownMenuItem>
-                                                <UserRoundCog className="mr-2 h-4 w-4" />
-                                                <span>Profile</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/bio'}>
-                                                <DropdownMenuItem>
-                                                    <CircleUser className="mr-2 h-4 w-4" />
-                                                    <span>Bio</span>
+        <div id="dropDownMenu">
+            <DropdownMenu  >
+                <DropdownMenuTrigger asChild >
+                    <Button variant="outline" ><Menu /></Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Settings</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                                <User className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            {/* <UserPlus className="mr-2 h-4 w-4" /> */}
+                                            <span>Types</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                                <Link to={'profiles/myProfile'}> <DropdownMenuItem>
+                                                    <UserRoundCog className="mr-2 h-4 w-4" />
+                                                    <span>Profile</span>
                                                 </DropdownMenuItem>
-                                            </Link>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <BriefcaseBusiness className="mr-2 h-4 w-4" />
-                            <span>Work</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        <span>Projects</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <Link to={'profiles/projects'}> <DropdownMenuItem>
-                                                <Eye className="mr-2 h-4 w-4" />
-                                                <span>View</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/projects/add'}> <DropdownMenuItem>
-                                                <CirclePlus className="mr-2 h-4 w-4" />
-                                                <span>Add</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/projects'}> <DropdownMenuItem>
-                                                <FilePenLine className="mr-2 h-4 w-4" />
-                                                <span>Edit</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/projects'}>
-                                                <DropdownMenuItem>
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    <span>Delete</span>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/bio'}>
+                                                    <DropdownMenuItem>
+                                                        <CircleUser className="mr-2 h-4 w-4" />
+                                                        <span>Bio</span>
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                                <BriefcaseBusiness className="mr-2 h-4 w-4" />
+                                <span>Work</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <span>Projects</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                                <Link to={'profiles/projects'}> <DropdownMenuItem>
+                                                    <Eye className="mr-2 h-4 w-4" />
+                                                    <span>View</span>
                                                 </DropdownMenuItem>
-                                            </Link>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        <span>Certifications</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <Link to={'profiles/certifications'}> <DropdownMenuItem>
-                                                <Eye className="mr-2 h-4 w-4" />
-                                                <span>View</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/certifications/add'}> <DropdownMenuItem>
-                                                <CirclePlus className="mr-2 h-4 w-4" />
-                                                <span>Add</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/certifications'}> <DropdownMenuItem>
-                                                <FilePenLine className="mr-2 h-4 w-4" />
-                                                <span>Edit</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/certifications'}>
-                                                <DropdownMenuItem>
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    <span>Delete</span>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/projects/add'}> <DropdownMenuItem>
+                                                    <CirclePlus className="mr-2 h-4 w-4" />
+                                                    <span>Add</span>
                                                 </DropdownMenuItem>
-                                            </Link>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <Braces className="mr-2 h-4 w-4" />
-                            <span>Experience</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        <span>Education</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <Link to={'profiles/education'}> <DropdownMenuItem>
-                                                <Eye className="mr-2 h-4 w-4" />
-                                                <span>View</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/education/add'}> <DropdownMenuItem>
-                                                <CirclePlus className="mr-2 h-4 w-4" />
-                                                <span>Add</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/education'}> <DropdownMenuItem>
-                                                <FilePenLine className="mr-2 h-4 w-4" />
-                                                <span>Edit</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/education'}>
-                                                <DropdownMenuItem>
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    <span>Delete</span>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/projects'}> <DropdownMenuItem>
+                                                    <FilePenLine className="mr-2 h-4 w-4" />
+                                                    <span>Edit</span>
                                                 </DropdownMenuItem>
-                                            </Link>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        <span>Work Experience</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <Link to={'profiles/workExperience'}> <DropdownMenuItem>
-                                                <Eye className="mr-2 h-4 w-4" />
-                                                <span>View</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/workExperience/add'}> <DropdownMenuItem>
-                                                <CirclePlus className="mr-2 h-4 w-4" />
-                                                <span>Add</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/workExperience'}> <DropdownMenuItem>
-                                                <FilePenLine className="mr-2 h-4 w-4" />
-                                                <span>Edit</span>
-                                            </DropdownMenuItem>
-                                            </Link>
-                                            <DropdownMenuSeparator />
-                                            <Link to={'profiles/workExperience'}>
-                                                <DropdownMenuItem>
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    <span>Delete</span>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/projects'}>
+                                                    <DropdownMenuItem>
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        <span>Delete</span>
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <span>Certifications</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                                <Link to={'profiles/certifications'}> <DropdownMenuItem>
+                                                    <Eye className="mr-2 h-4 w-4" />
+                                                    <span>View</span>
                                                 </DropdownMenuItem>
-                                            </Link>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <ListChecks className="mr-2 h-4 w-4" />
-                            <span>Skills</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/certifications/add'}> <DropdownMenuItem>
+                                                    <CirclePlus className="mr-2 h-4 w-4" />
+                                                    <span>Add</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/certifications'}> <DropdownMenuItem>
+                                                    <FilePenLine className="mr-2 h-4 w-4" />
+                                                    <span>Edit</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/certifications'}>
+                                                    <DropdownMenuItem>
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        <span>Delete</span>
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                                <Braces className="mr-2 h-4 w-4" />
+                                <span>Experience</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <span>Education</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                                <Link to={'profiles/education'}> <DropdownMenuItem>
+                                                    <Eye className="mr-2 h-4 w-4" />
+                                                    <span>View</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/education/add'}> <DropdownMenuItem>
+                                                    <CirclePlus className="mr-2 h-4 w-4" />
+                                                    <span>Add</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/education'}> <DropdownMenuItem>
+                                                    <FilePenLine className="mr-2 h-4 w-4" />
+                                                    <span>Edit</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/education'}>
+                                                    <DropdownMenuItem>
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        <span>Delete</span>
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <span>Work Experience</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                                <Link to={'profiles/workExperience'}> <DropdownMenuItem>
+                                                    <Eye className="mr-2 h-4 w-4" />
+                                                    <span>View</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/workExperience/add'}> <DropdownMenuItem>
+                                                    <CirclePlus className="mr-2 h-4 w-4" />
+                                                    <span>Add</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/workExperience'}> <DropdownMenuItem>
+                                                    <FilePenLine className="mr-2 h-4 w-4" />
+                                                    <span>Edit</span>
+                                                </DropdownMenuItem>
+                                                </Link>
+                                                <DropdownMenuSeparator />
+                                                <Link to={'profiles/workExperience'}>
+                                                    <DropdownMenuItem>
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        <span>Delete</span>
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                                <ListChecks className="mr-2 h-4 w-4" />
+                                <span>Skills</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
 
-                                <DropdownMenuSub>
-                                    <Link to={'profiles/skills'}> <DropdownMenuItem>
-                                        <Eye className="mr-2 h-4 w-4" />
-                                        <span>View</span>
-                                    </DropdownMenuItem>
-                                    </Link>
-                                    <DropdownMenuSeparator />
-                                    <Link to={'profiles/skills/add'}> <DropdownMenuItem>
-                                        <CirclePlus className="mr-2 h-4 w-4" />
-                                        <span>Add</span>
-                                    </DropdownMenuItem>
-                                    </Link>
-                                    <DropdownMenuSeparator />
-                                    <Link to={'profiles/skills'}> <DropdownMenuItem>
-                                        <FilePenLine className="mr-2 h-4 w-4" />
-                                        <span>Edit</span>
-                                    </DropdownMenuItem>
-                                    </Link>
-                                    <DropdownMenuSeparator />
-                                    <Link to={'profiles/skills'}> <DropdownMenuItem>
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        <span>Delete</span>
-                                    </DropdownMenuItem>
-                                    </Link>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+                                    <DropdownMenuSub>
+                                        <Link to={'profiles/skills'}> <DropdownMenuItem>
+                                            <Eye className="mr-2 h-4 w-4" />
+                                            <span>View</span>
+                                        </DropdownMenuItem>
+                                        </Link>
+                                        <DropdownMenuSeparator />
+                                        <Link to={'profiles/skills/add'}> <DropdownMenuItem>
+                                            <CirclePlus className="mr-2 h-4 w-4" />
+                                            <span>Add</span>
+                                        </DropdownMenuItem>
+                                        </Link>
+                                        <DropdownMenuSeparator />
+                                        <Link to={'profiles/skills'}> <DropdownMenuItem>
+                                            <FilePenLine className="mr-2 h-4 w-4" />
+                                            <span>Edit</span>
+                                        </DropdownMenuItem>
+                                        </Link>
+                                        <DropdownMenuSeparator />
+                                        <Link to={'profiles/skills'}> <DropdownMenuItem>
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            <span>Delete</span>
+                                        </DropdownMenuItem>
+                                        </Link>
+                                    </DropdownMenuSub>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
     )
 }
 

@@ -21,15 +21,15 @@ function App() {
   return (
     <div id="projectContainer">
 
-      <div className='bg-yellow-300 flex justify-center items-center m-4'><NavbarMenu /></div>
+      <div className='g-yellow-300 flex justify-center items-center p-2'><NavbarMenu /></div>
       {/* <div className='bg-green-500 flex flex-row flex-wrap justify-between items-center'><NavbarDashboard /></div> */}
-      <div className='bg-green-500 flex justify-center items-center m-4'><NavbarDashboard id="123" /></div>
-      <div className='bg-gray-600 flex justify-center items-center m-4'>
+      <div className='g-green-500 flex justify-center items-center p-2'><NavbarDashboard /></div>
+      <div className='g-gray-600 justify-center items-center p-2'>
         <BioAvatar />
       </div>
-      <div className='bg-pink-400'>4</div>
-      <div className='flex flex-1'><Outlet /></div>
-      <div className='  bg-orange-400'>6</div>
+      <div className='g-pink-400 p-2' />
+      <div className='p-2'><Outlet /></div>
+      <div className=' g-orange-400 p-2' />
     </div>
   )
 }
