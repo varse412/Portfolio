@@ -1,1 +1,4 @@
 This directory houses reusable UI components that can be shared across multiple pages.
+Text area addition 
+date addition in form 
+skeleton additon different loaders for different scenarios

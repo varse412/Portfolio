@@ -17,6 +17,9 @@ import {
     FormLabel,
     FormMessage,
  } from "@/components/ui/form"
+ import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 // import axios from "axios"
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -151,7 +154,7 @@ const userProfile: React.FC = () => {
                     <InputCustom
                         labelfor="bio"
                         label="bio"
-                        inputType="text"
+                        inputType="textarea"
                         placeholder="Enter your Bio"
                         controls={form.control}
                     />

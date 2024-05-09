@@ -5,6 +5,11 @@ import { useRouteMatch } from "../../utils/routeMatcher.tsx";
 import { Link, Outlet } from "react-router-dom";
 import { Button } from "@/components/ui/button.tsx";
 import { CirclePlus } from "lucide-react";
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
+
+
 const WorkExperience: React.FC = () => {
     const { match } = useRouteMatch()
     return (
@@ -30,6 +35,9 @@ const WorkExperience: React.FC = () => {
                 )}
             />
                 : <Outlet />}
+            {/* <ImageSkeleton />
+            <SkeletonCard />
+            <FormSkeleton /> */}
         </div>
     );
 }

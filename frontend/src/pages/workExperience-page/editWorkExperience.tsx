@@ -15,6 +15,9 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 const schemaProfile = z.object({
     id: z.any().optional(),
     companyName: z.string().min(3),
@@ -36,7 +39,8 @@ const EditWorkExperience: React.FC = (): ReactElement => {
         resolver: zodResolver(schemaProfile)
     })
     const submitForm: SubmitHandler<FormFields> = (data: any) => {
-        console.log(data)
+        const formdata = document.querySelector("form");
+        console.log("workexdata-->", data)
     }
     // console.log("profiler is ",profile)
     return (
@@ -72,8 +76,8 @@ const EditWorkExperience: React.FC = (): ReactElement => {
                     <InputCustom
                         labelfor="description"
                         label="description"
-                        inputType="url"
-                        placeholder="Enter your certificate Link To Download"
+                        inputType="textarea"
+                        placeholder="Enter your certificate Description"
                         controls={form.control}
                     />
                     <InputCustom

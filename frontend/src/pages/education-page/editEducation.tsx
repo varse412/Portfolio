@@ -15,6 +15,9 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 
 const schemaProfile = z.object({
     id: z.any().optional(),
@@ -37,7 +40,9 @@ const EditEducation: React.FC = (): ReactElement => {
         resolver: zodResolver(schemaProfile)
     })
     const submitForm: SubmitHandler<FormFields> = (data: any) => {
-        console.log(data)
+        const formdata = document.querySelector("form");
+        // console.log("data is", Object.fromEntries(formData))
+        console.log("education data", data)
     }
     // console.log("profiler is ",profile)
     return (
@@ -65,7 +70,7 @@ const EditEducation: React.FC = (): ReactElement => {
                     <InputCustom
                         labelfor="description"
                         label="description"
-                        inputType="url"
+                        inputType="textarea"
                         placeholder="Enter your certificate Link To Download"
                         controls={form.control}
                     />
@@ -84,8 +89,8 @@ const EditEducation: React.FC = (): ReactElement => {
                         controls={form.control}
                     />
                     <InputCustom
-                        labelfor="companyImage"
-                        label="companyImage"
+                        labelfor="schoolImage"
+                        label="schoolImage"
                         inputType="file"
                         placeholder="Enter your company Image"
                         controls={form.control}

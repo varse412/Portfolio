@@ -5,6 +5,9 @@ import { Link, Outlet } from "react-router-dom";
 import { useRouteMatch } from "../../utils/routeMatcher.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { CirclePlus } from "lucide-react";
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 const Education: React.FC = () => {
     const { match } = useRouteMatch()
     return (

@@ -9,6 +9,9 @@ import { createRequest, requestParams } from "../../services/createRequests/inde
 import { backendBaseURL } from "../../../constants.ts";
 import { Button } from "@/components/ui/button"
 import { CirclePlus } from "lucide-react";
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 const Projects: FC = (): ReactElement => {
     const items = ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8"]
     const { profile } = useParams()

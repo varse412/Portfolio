@@ -12,6 +12,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
+
 const schemaProfile = z.object({
     id: z.any().optional(),
     title: z.string().min(3),
@@ -27,7 +31,8 @@ const Bio: React.FC = () => {
         resolver: zodResolver(schemaProfile)
     })
     const submitForm: SubmitHandler<FormFields> = (data: any) => {
-        console.log(data)
+        const formdata = document.querySelector("form");
+        console.log("bio data@@", data)
     }
     return (
         <div className="flex flex-1 justify-center align-middle bg-white">
@@ -46,7 +51,7 @@ const Bio: React.FC = () => {
                     <InputCustom
                         labelfor="bio"
                         label="bio"
-                        inputType="text"
+                        inputType="textarea"
                         placeholder="Enter your Bio"
                         controls={form.control}
                     />

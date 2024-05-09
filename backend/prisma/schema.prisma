@@ -45,3 +45,34 @@ model projectStack {
   project   project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String?
 }
+
+model education {
+  id          Int      @id @default(autoincrement())
+  schoolName  String
+  degree      String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  schoolImage String
+}
+
+model companyExperience {
+  id           Int      @id @default(autoincrement())
+  companyName  String
+  description  String
+  position     String
+  startDate    DateTime
+  endDate      DateTime
+  companyImage String
+}
+
+model bio {
+  id    Int    @id @default(autoincrement())
+  title String
+  bio   String
+  image String
+}
+
+model skills {
+  id Int @id @default(autoincrement())
+}

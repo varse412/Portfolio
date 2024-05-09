@@ -18,7 +18,9 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/ui/form"
-
+import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
+import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
+import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
 
 const schemaProfile = z.object({
    id: z.any().optional(),
@@ -164,7 +166,7 @@ const EditProject: React.FC = (): ReactElement => {
                <InputCustom
                   labelfor="projectDescription"
                   label="projectDescription"
-                  inputType="text"
+                  inputType="textarea"
                   placeholder="Enter your Project Description"
                   controls={form.control}
                />
