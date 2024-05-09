@@ -8,12 +8,27 @@ declare global {
 }
 global.__basedir = __dirname;
 
-
+//Profile section
 const appRouter = require("./routes/profile/profile")
+const BioAppRouter = require("./routes/bio/bio")
+
+//Projects section
 const addProjectAppRouter = require("./routes/projects/addProject");
 const getProjectsAppRouter = require("./routes/projects/getProjects");
 const editProjectAppRouter = require("./routes/projects/editProject");
 const deleteProjectsAppRouter = require("./routes/projects/deleteProject");
+
+//Experience
+const addExperienceAppRouter = require("./routes/projects/addExperience");
+const getExperiencesAppRouter = require("./routes/projects/geExperiences");
+const editExperienceAppRouter = require("./routes/projects/editExperience");
+const deleteExperienceAppRouter = require("./routes/projects/deleteExperience");
+
+//Education
+const addEducationAppRouter = require("./routes/education/addEducation");
+const getEducationsAppRouter = require("./routes/education/getEducations");
+const editEducationAppRouter = require("./routes/education/editEducation");
+const deleteEducationAppRouter = require("./routes/education/deleteEducation");
 
 dotenv.config()
 const app = express()
@@ -36,6 +51,9 @@ app.use(bodyParser.urlencoded({
 //for creating and updating myprofile
 app.use("/api", appRouter)
 
+//for creating and updating bio
+app.use("/api", BioAppRouter)
+
 
 
 
@@ -47,6 +65,25 @@ app.use("/api", getProjectsAppRouter)
 app.use("/api", editProjectAppRouter)
 //delete project
 app.use("/api", deleteProjectsAppRouter);
+
+
+//for exprience 
+app.use("/api", addExperienceAppRouter)
+//for read exp
+app.use("/api", getExperiencesAppRouter)
+//for edit exp
+app.use("/api", editExperienceAppRouter)
+//for delete exp
+app.use("/api", deleteExperienceAppRouter)
+
+//for education
+app.use("/api", addEducationAppRouter)
+//for read
+app.use("/api", getEducationsAppRouter)
+//for edit 
+app.use("/api", editEducationAppRouter)
+//for delete 
+app.use("/api", deleteEducationAppRouter)
 
 
 

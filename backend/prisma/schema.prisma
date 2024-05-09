@@ -47,7 +47,7 @@ model projectStack {
 }
 
 model education {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   schoolName  String
   degree      String
   description String
@@ -57,7 +57,7 @@ model education {
 }
 
 model companyExperience {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   companyName  String
   description  String
   position     String
@@ -67,12 +67,12 @@ model companyExperience {
 }
 
 model bio {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   title String
   bio   String
   image String
 }
 
 model skills {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 }
