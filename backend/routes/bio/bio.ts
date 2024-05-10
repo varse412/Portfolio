@@ -13,6 +13,8 @@ const postProfileData = async (req: any, res: any) => {
       // title String
       // bio   String
       // image String
+      console.log("req.body", req.body)
+      console.log("req. filename", req.finalFilename)
       if (!user) {
          //USER DOES'NT EXIST
          const payload = {
@@ -36,7 +38,7 @@ const postProfileData = async (req: any, res: any) => {
                req.finalFilename : ""
          }
          console.log("users are1", payload)
-         console.log("req1", req?.files)
+         console.log("req1", req?.files, "+++", req.finalFilename)
          if (req?.files &&
             req.files[0] &&
             req.files[0]?.originalname &&

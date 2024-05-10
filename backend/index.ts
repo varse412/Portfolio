@@ -19,10 +19,10 @@ const editProjectAppRouter = require("./routes/projects/editProject");
 const deleteProjectsAppRouter = require("./routes/projects/deleteProject");
 
 //Experience
-const addExperienceAppRouter = require("./routes/projects/addExperience");
-const getExperiencesAppRouter = require("./routes/projects/geExperiences");
-const editExperienceAppRouter = require("./routes/projects/editExperience");
-const deleteExperienceAppRouter = require("./routes/projects/deleteExperience");
+const addExperienceAppRouter = require("./routes/experience/addExperience");
+const getExperiencesAppRouter = require("./routes/experience/getExperiences");
+const editExperienceAppRouter = require("./routes/experience/editExperience");
+const deleteExperienceAppRouter = require("./routes/experience/deleteExperience");
 
 //Education
 const addEducationAppRouter = require("./routes/education/addEducation");

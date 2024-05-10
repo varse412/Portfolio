@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '..', 'public', 'personalImage'))
     },
     filename: (req, file, cb) => {
+        console.log("entered here ji ")
         const filename = `${file.fieldname + "_" + crypto.randomUUID().toString() + "_" + Date.now() + "_" + file.originalname}`
         req.finalFilename = filename;
         cb(null, filename)

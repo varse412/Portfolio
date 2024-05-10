@@ -24,6 +24,6 @@ const getExperiences = async (req: express.Request, res: express.Response) => {
     }
 }
 
-getExperiencesAppRouter.route('/projects/all').get(getExperiences)
+getExperiencesAppRouter.route('/experience/all').get(getExperiences)
 
 module.exports = getExperiencesAppRouter;

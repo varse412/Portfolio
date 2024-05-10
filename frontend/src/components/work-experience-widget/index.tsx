@@ -12,6 +12,7 @@ type WorkExpWidgetProps = {
   startDate: string;
   endDate: string;
   id: any;
+  expData: any;
 
 }
 const dateCalculator = () => {
@@ -75,7 +76,7 @@ const WorkExpWidget: React.FC = (props: WorkExpWidgetProps) => {
         </div>
         <div className="flex flex-row justify-between">
           <Button>
-            <Link to={{ pathname: `${props.id}` }} state={{ data: "to send from props" }} className="flex flex-row">
+            <Link to={{ pathname: `${props.id}` }} state={{ data: props?.expData }} className="flex flex-row">
               <FilePenLine className="mr-2 h-4 w-4" />Edit
             </Link>
           </Button>
