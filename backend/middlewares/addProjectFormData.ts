@@ -19,4 +19,27 @@ const storage = multer.diskStorage({
 })
 export const uploadFile = multer({
     storage: storage,
+    limits: {
+        // Set no limits on file size
+        fileSize: Infinity
+    }
 })
+// var multer = require('multer')
+
+// var storage = multer.diskStorage({
+//     destination: function (request: any, file: any, callback: any) {
+//         const filePath = path.join(__dirname, '..', 'public', 'projectsImage')
+//         callback(null, filePath);
+//     },
+//     filename: function (request: any, file: any, callback: any) {
+//         console.log(file);
+//         request.finalFilename = file_name_generator(file.fieldname, file.originalname);
+//         callback(null, request.finalFilename)
+//     }
+// });
+
+// export var uploadFile = multer({
+//     storage: storage, limits: {
+//         fileSize: Infinity
+//     }
+// });

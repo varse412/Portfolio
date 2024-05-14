@@ -63,6 +63,7 @@ export const onProjectsLoad = (): Promise<any> => {
                 url: `${backendBaseURL}/api/projects/all`,
             }
             const response = await createRequest(params)
+            console.log("proj resp", response)
             resolve(response)
         } catch (error) {
             reject({

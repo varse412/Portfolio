@@ -62,19 +62,19 @@ const EditWorkExperience: React.FC = (): ReactElement => {
         setLoader(true)
         if (pathType == "add") {
             try {
-                // const params: requestParams = {
-                //     method: "POST",
-                //     url: `${backendBaseURL}/api/experience/add`,
-                //     data: formData,
-                // }
-                // const response = await createRequest(params)
                 const params: requestParams = {
                     method: "POST",
-                    url: `${backendBaseURL}/api/projects/add`,
+                    url: `${backendBaseURL}/api/experience/add`,
                     data: formData,
                 }
-
                 const response = await createRequest(params)
+                // const params: requestParams = {
+                //     method: "POST",
+                //     url: `${backendBaseURL}/api/projects/add`,
+                //     data: formData,
+                // }
+
+                // const response = await createRequest(params)
                 // redirect("profiles/workExperience");
             } catch (err) {
                 console.log("error can't perform anything")

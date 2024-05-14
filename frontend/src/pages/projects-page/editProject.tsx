@@ -21,9 +21,14 @@ import {
 import { ImageSkeleton } from "@/components/loader-skeletons/image-skeleton/index.tsx";
 import { SkeletonCard } from "@/components/loader-skeletons/card-skeleton/index.tsx";
 import { FormSkeleton } from "@/components/loader-skeletons/form-skeleton/index.tsx";
+import { useNavigate } from "react-router-dom";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { toastDestructive } from "@/components/destructive-toast/index.tsx";
+import { Toaster } from "@/components/ui/toaster"
+
 
 const schemaProfile = z.object({
-   id: z.any().optional(),
    projectName: z.string().min(3),
    developmentType: z.string().min(3),
    projectDescription: z.string().min(20),
@@ -32,9 +37,6 @@ const schemaProfile = z.object({
    website: z.string().url().optional(),
    demoVideo: z.string().url(),
    picture: z.any(z.instanceof(File)),
-   items: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-   }),
    softwareUsed: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: "You have to select at least one item.",
    }),
@@ -75,6 +77,8 @@ const EditProject: React.FC = (): ReactElement => {
    //  console.log("ls is@@@@", state);
    // const {id,pathname} = useRouteMatch();
    // ...{ true ? : defaultValues: { } }
+   const { toast } = useToast()
+   const navigate = useNavigate();
    const { profile } = useParams()
    const location = useLocation();
    const { state } = location || {};
@@ -89,11 +93,6 @@ const EditProject: React.FC = (): ReactElement => {
       console.log("id for edit is open", idused)
    }
 
-   // const { handleSubmit, register, formState: { errors }, reset } = useForm<FormFields>({
-   //    resolver: zodResolver(schemaProfile),
-   //    // defaultValues: {pathType == "add"?...state.data: ...{}}
-   //    defaultValues: {}
-   // })
    const form = useForm<FormFields>({
       resolver: zodResolver(schemaProfile),
       defaultValues: {
@@ -103,51 +102,119 @@ const EditProject: React.FC = (): ReactElement => {
    })
    useEffect(() => {
       if (pathType != "add") {
-         // reset(defaultValues, state.data)
-         form.reset(state.data, { keepValues: false, keepDefaultValues: true })
+         let softwareUsedArray = state.data?.softwareUsed?.map(item => item.name)
+         form.reset({ ...state.data, softwareUsed: softwareUsedArray }, { keepValues: false, keepDefaultValues: true })
       } else {
          form.reset();
       }
+
    }, [state])
+   console.log("error", form.formState.errors)
    const submitForm: SubmitHandler<FormFields> = async (data: any) => {
-      const formData = document.querySelector("form");
-      console.log("data is", Object.fromEntries(formData))
+      var formDat = document?.querySelector('form')?.onSubmit
+      console.log("data is", formDat)
       if (pathType == "add") {
-         //make post request 
+         // make post request
+         setLoader(true)
          try {
+
+            console.log("dat is-->", data)
             const params: requestParams = {
                method: "POST",
                url: `${backendBaseURL}/api/projects/add`,
-               data: formData,
+               data: { ...data, picture: data?.picture[0] },
+               headers: {
+                  'Content-Type': 'multipart/form-data'
+               }
             }
 
             const response = await createRequest(params)
+            console.log("resp---->", response)
+            if (response.meta == 1) {
+               //navigater to view 
+               // successfull
+               // toastDestructive({
+               //    successfull: true,
+               //    description: response.message ?? "Data added successfully",
+               // })
+               toast({
+                  description: response.message ?? "Data added successfully",
+               })
+               await setTimeout(() => {
+                  navigate("/profiles/projects")
+               }, 2000)
+            } else {
+               //show toast with error 
+               // ToastDestructive
+
+               // toastDestructive({
+               //    title: "Api Error",
+               //    description: response.message ?? "Something went wrong with Api",
+               //    buttonText: "try again",
+               //    onClick: () => {
+               //       form.handleSubmit(submitForm)
+               //    }
+               // })
+               toast({
+                  variant: "destructive",
+                  title: "Api Error",
+                  description: response.message ?? "Something went wrong with Api",
+                  action: <ToastAction altText="Pls try again" onClick={() => {
+                     form.handleSubmit(submitForm)
+                  }}>{"try again"}</ToastAction>,
+               })
+            }
          } catch (err) {
-            console.log("error can't perform anything")
+            // console.log("error can't perform anything")
+            // toastDestructive({
+            //    title: "Client Error",
+            //    description: JSON.stringify(err) ?? "Something went wrong with Api",
+            //    buttonText: "try again",
+            //    onClick: () => {
+            //       form.handleSubmit(submitForm)
+            //    }
+            // })
+            toast({
+               variant: "destructive",
+               title: "Client Error",
+               description: JSON.stringify(err) ?? "Something went wrong with Api",
+               action: <ToastAction altText="Pls try again" onClick={() => {
+                  form.handleSubmit(submitForm)
+               }}>{"try again"}</ToastAction>,
+            })
+         } finally {
+            setLoader(false)
          }
       } else {
          //edit the profile with given id 
          //delete its previous photo if added  if same don't do anything
-         console.log("in id@@", `${backendBaseURL}/api/projects/edit/${state.data.id}`)
-         try {
-            const params: requestParams = {
-               method: "POST",
-               url: `${backendBaseURL}/api/projects/edit/${state.data.id}`,
-               data: formData,
-            }
-            const response = await createRequest(params)
-         } catch (err) {
-            console.log("error in edit", err)
-         }
+         // console.log("in id@@", `${backendBaseURL}/api/projects/edit/${state.data.id}`)
+         // var formData = document.querySelector('form');
+         // console.log("fdata2", Object.fromEntries(formData))
+         // console.log("data is", formData)
+         // try {
+         //    const params: requestParams = {
+         //       method: "POST",
+         //       url: `${backendBaseURL}/api/projects/edit/${state.data.id}`,
+         //       data: formData,
+         //    }
+         //    const response = await createRequest(params)
+         // } catch (err) {
+         //    console.log("error in edit", err)
+         // } finally {
+         //    setLoader(false)
+         // }
       }
    }
 
    return (
       <div className="flex flex-1 justify-center align-middle bg-white">
+         <Toaster className="flex absolute top-10 " />
          <Form {...form}>
             <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
                id="profileForm"
                onSubmit={form.handleSubmit(submitForm)}
+               encType="multipart/form-data"
             >
                <InputCustom
                   labelfor="projectName"
@@ -206,6 +273,7 @@ const EditProject: React.FC = (): ReactElement => {
                   inputType="file"
                   placeholder="Enter your picture"
                   controls={form.control}
+                  dataToEdit={state?.data?.picture || undefined}
                />
                <ButtonCustom
                   type={"submit"}
@@ -213,7 +281,7 @@ const EditProject: React.FC = (): ReactElement => {
                   name={pathType == 'add' ? "Add project" : "Update project"}
                   formId={"profileForm"}
                   controls={form.control}
-                  disabled={true}
+                  disabled={loader}
                   disabledText={pathType == 'add' ? "Adding project" : "Updating project"}
                />
             </form>
@@ -224,6 +292,7 @@ const EditProject: React.FC = (): ReactElement => {
 }
 
 export default EditProject;
+
 
 
 

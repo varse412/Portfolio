@@ -23,8 +23,7 @@ const postProfileData = async (req: any, res: any) => {
             resume: req.files && req?.files[0]?.fieldname && req?.files[0]?.originalname && req.finalFilename ?
                req.finalFilename : ""
          }
-         // console.log("entered here ")
-         // console.log("payload: ", payload, "++++++++++++++++", req.finalFilename);
+        
          //USER DOES'NT EXIST
          const newUser = await prisma.myProfile.create({
             data: payload
@@ -44,29 +43,32 @@ const postProfileData = async (req: any, res: any) => {
          }
          console.log("users are1",payload)
          console.log("req1",req?.files)
-         if (req?.files&& 
-            req.files[0]&&
-            req.files[0]?.originalname&&
-            (req?.files[0].originalname != user.resume.split('_')[3])) {
-            // console.log("file changed")
-            removeFile(user.resume);
-         }else{
-            //duplicate added 
-            //delete that also 
-            // removeFile(req.filename);
-            //previouse file was there and remove insertion
-            //same but not empty name 
-             if(req?.files&& 
+         if(user.resume!=null || user.resume!=undefined||user.resume!='') {
+            if (req?.files&& 
                req.files[0]&&
                req.files[0]?.originalname&&
-               (req.files[0].originalname!='')){
-              removeFile(req.finalFilename);
-             }
-              payload={
-               ...req.body
-              }
-              delete payload["resume"];
+               (req?.files[0].originalname != user.resume.split('_')[3])) {
+               // console.log("file changed")
+               removeFile(user.resume);
+            }else{
+               //duplicate added 
+               //delete that also 
+               // removeFile(req.filename);
+               //previouse file was there and remove insertion
+               //same but not empty name 
+                if(req?.files&& 
+                  req.files[0]&&
+                  req.files[0]?.originalname&&
+                  (req.files[0].originalname!='')){
+                 removeFile(req.finalFilename);
+                }
+                 payload={
+                  ...req.body
+                 }
+                 delete payload["resume"];
+            }
          }
+         
          //now do another updation of data
          console.log("users are",payload)
          const updatedUser = await prisma.myProfile.update({
@@ -85,19 +87,21 @@ const postProfileData = async (req: any, res: any) => {
          
          
       }
-      await prisma.$disconnect()
+      
    } catch (err: any) {
-      await prisma.$disconnect()
+      
       res.status(200).json({
          meta: 0,
          status: "failure",
          message: err.message
       })
+   }finally{
+      await prisma.$disconnect()
    }
 
 }
 
-appRouter.route('/profile/update').post(urlEncodedParser, uploadFile.any(), postProfileData)
+appRouter.route('/profile/update').post(uploadFile.any(), postProfileData)
 
 
 const getProfileData = async (req: any, res: any) => {

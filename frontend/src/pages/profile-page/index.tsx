@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import ButtonCustom from "../../components/custom-buttonwithloader/index.tsx"
 import { createRequest, requestParams } from "../../services/createRequests/index.ts"
 import { backendBaseURL } from "../../../constants.ts"
-import { useFetcher, useLoaderData, useLocation,useNavigate, Link } from "react-router-dom"
+import { useFetcher, useLoaderData, useLocation,useNavigate, Link, useRevalidator } from "react-router-dom"
 import { useEffect, useState } from "react"
 import PageLoader from "../../components/page-loader/index.tsx"
 import {
@@ -49,93 +49,46 @@ const dummyState = {
     website: "not fetched",
 }
 const userProfile: React.FC = () => {
-    const navigate = useNavigate();
+    const [loader, setLoader] = useState(false)
     const fetcher = useFetcher();
-    const currentLocation = useLocation();
     const loaderData = useLoaderData() as object
-    // const history = useHistory()
-    const [data, setData] = useState<object>(loaderData?.data || dummyState)
-    const[locator,setLocator]=useState<Function>(()=>{
-        // window.location.reload();
-       return ()=>{
-        setTimeout(() => {
-            // window.location.href = urlFromBackend;
-            // navigate(0);
-            const url=`${backendBaseURL}/api/images/${loaderData?.data?.resume}`
-            window.location.href=url;
-            // return false;
-          }, 1000);
-       
-        
-        }
-    })
-    useEffect(() => {
-        setData(
-            {
-                bio: data?.bio || dummyState.bio,
-                email: data?.email || dummyState.email,
-                githubURL: data?.githubURL || dummyState.githubURL,
-                id: data?.id || dummyState.id,
-                linkedInURL: data?.linkedInURL || dummyState.linkedInURL,
-                mobile: data?.mobile || dummyState.mobile,
-                name: data?.name || dummyState.name,
-                resume: data?.resume || dummyState.resume,
-                resumeLink: data?.resumeLink || dummyState.resumeLink,
-                title: data?.title || dummyState.title,
-                website: data?.website || dummyState.website,
-            }
-        )
-        console.log("data.resume",data?.resume)
-        setLocator(()=>{
-            // window.location.reload();
-           return ()=>{
-            setTimeout(() => {
-                // window.location.href = urlFromBackend;
-                // navigate(0);
-                const url=`${backendBaseURL}/api/images/${data?.resume}`
-                window.location.href=url;
-                // return false;
-              }, 1000);
-           
-            
-            }
-        })
-       
-    }, [loaderData])
-    
-    // const { handleSubmit, register, formState: { errors } } = useForm<FormFields>({
-    //             resolver: zodResolver(schemaProfile),
-    //             defaultValues: data
-    //         })
     const form= useForm<FormFields>({
         resolver: zodResolver(schemaProfile),
-        defaultValues: data
+        defaultValues: loaderData?.data
     })
-                const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
-                try {
-                    var form = document.querySelector('form');
-                    const params: requestParams = {
-                        method: "POST",
-                        url: `${backendBaseURL}/api/profile/update`,
-                        data: form,
-                    }
-                    const response = await createRequest(params)
-                    // console.log("res", response)
-    
-                    fetcher.load(currentLocation.pathname)
-                } catch (error) {
-                    //to handle 
-                    console.log("can't log data")
-                }
-            }
+    const revalidator = useRevalidator();
+const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
+    setLoader(true)
+    try {
+        var formData = document.querySelector('form');
+        console.log("fdata",Object.fromEntries(formData))
+        const params: requestParams = {
+            method: "POST",
+            url: `${backendBaseURL}/api/profile/update`,
+            data: formData,
+        }
+        const response = await createRequest(params)
+        revalidator.revalidate()
+    } catch (error) {
+        //to handle 
+        console.log("can't log data")
+        //just show toast 
+    } finally {
+        setLoader(false)
+    }
+}
 
     return (
         <div className="flex flex-1 justify-center align-middle bg-white">
-            {fetcher.state == "loading" ? <PageLoader /> :
+            {(fetcher.state == "loading" || revalidator.state == "loading") ?
+                <FormSkeleton />
+            :
                <Form {...form}>
                <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
                   id="profileForm"
                   onSubmit={form.handleSubmit(submitForm)}
+                  encType="multipart/form-data"
+ 
                >
                     <InputCustom
                         labelfor="name"
@@ -212,18 +165,13 @@ const userProfile: React.FC = () => {
                         value={"updateProfile"}
                         name={"Update Profile"}
                         formId={"profileForm"}
+                        disabled={loader}
+                        disabledText={"Updating Profile pls wait.."}
                     />
                 </form>   
                 </Form>  
             }
-            {fetcher.state == "loading" ? null :<ButtonCustom
-                type={"button"}
-                value={"View Resume"}
-                name={"View Resume"}
-                onClick={() => locator()}
-            />}
-            {fetcher.state == "loading" ? null :<a href={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</a>}
-            {fetcher.state == "loading" ? null :<Link to={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</Link>}
+            
         </div>
     )
    
@@ -513,3 +461,103 @@ export const onUserProfileLoad = (): Promise<any> => {
     // useEffect(()=>{
 
     // })
+
+
+    // {fetcher.state == "loading" ? null :<ButtonCustom
+    //             type={"button"}
+    //             value={"View Resume"}
+    //             name={"View Resume"}
+    //             onClick={() => locator()}
+    //         />}
+    //         {fetcher.state == "loading" ? null :<a href={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</a>}
+    //         {fetcher.state == "loading" ? null :<Link to={ `${backendBaseURL}/api/images/${data?.resume}`}>abcd</Link>}
+
+
+    // useEffect(() => {
+    //     setData(
+    //         {
+    //             bio: data?.bio || dummyState.bio,
+    //             email: data?.email || dummyState.email,
+    //             githubURL: data?.githubURL || dummyState.githubURL,
+    //             id: data?.id || dummyState.id,
+    //             linkedInURL: data?.linkedInURL || dummyState.linkedInURL,
+    //             mobile: data?.mobile || dummyState.mobile,
+    //             name: data?.name || dummyState.name,
+    //             resume: data?.resume || dummyState.resume,
+    //             resumeLink: data?.resumeLink || dummyState.resumeLink,
+    //             title: data?.title || dummyState.title,
+    //             website: data?.website || dummyState.website,
+    //         }
+    //     )
+    //     console.log("data.resume",data?.resume)
+    //     setLocator(()=>{
+    //         // window.location.reload();
+    //        return ()=>{
+    //         setTimeout(() => {
+    //             // window.location.href = urlFromBackend;
+    //             // navigate(0);
+    //             const url=`${backendBaseURL}/api/images/${data?.resume}`
+    //             window.location.href=url;
+    //             // return false;
+    //           }, 1000);
+           
+            
+    //         }
+    //     })
+       
+    // }, [loaderData])
+
+    // const form= useForm<FormFields>({
+    //     resolver: zodResolver(schemaProfile),
+    //     defaultValues: data
+    // })
+
+    // const [data, setData] = useState<object>(loaderData?.data || dummyState)
+    // const[locator,setLocator]=useState<Function>(()=>{
+    //     // window.location.reload();
+    //    return ()=>{
+    //     setTimeout(() => {
+    //         // window.location.href = urlFromBackend;
+    //         // navigate(0);
+    //         const url=`${backendBaseURL}/api/images/${loaderData?.data?.resume}`
+    //         window.location.href=url;
+    //         // return false;
+    //       }, 1000);
+       
+        
+    //     }
+    // })
+
+    // useEffect(() => {
+    //     setData(
+    //         {
+    //             bio: data?.bio || dummyState.bio,
+    //             email: data?.email || dummyState.email,
+    //             githubURL: data?.githubURL || dummyState.githubURL,
+    //             id: data?.id || dummyState.id,
+    //             linkedInURL: data?.linkedInURL || dummyState.linkedInURL,
+    //             mobile: data?.mobile || dummyState.mobile,
+    //             name: data?.name || dummyState.name,
+    //             resume: data?.resume || dummyState.resume,
+    //             resumeLink: data?.resumeLink || dummyState.resumeLink,
+    //             title: data?.title || dummyState.title,
+    //             website: data?.website || dummyState.website,
+    //         }
+    //     )
+    //     console.log("data.resume",data?.resume)
+    //     setLocator(()=>{
+    //         // window.location.reload();
+    //        return ()=>{
+    //         setTimeout(() => {
+    //             // window.location.href = urlFromBackend;
+    //             // navigate(0);
+    //             const url=`${backendBaseURL}/api/images/${data?.resume}`
+    //             window.location.href=url;
+    //             // return false;
+    //           }, 1000);
+           
+            
+    //         }
+    //     })
+       
+    // }, [loaderData])

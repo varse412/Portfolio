@@ -39,28 +39,30 @@ const postProfileData = async (req: any, res: any) => {
          }
          console.log("users are1", payload)
          console.log("req1", req?.files, "+++", req.finalFilename)
-         if (req?.files &&
-            req.files[0] &&
-            req.files[0]?.originalname &&
-            (req?.files[0].originalname != user.image.split('_')[3])) {
-            // console.log("file changed")
-            removeFile(user.image);
-         } else {
-            //duplicate added 
-            //delete that also 
-            // removeFile(req.filename);
-            //previouse file was there and remove insertion
-            //same but not empty name 
+         if (user.image != null || user.image != undefined || user.image != '') {
             if (req?.files &&
                req.files[0] &&
                req.files[0]?.originalname &&
-               (req.files[0].originalname != '')) {
-               removeFile(req.finalFilename);
+               (req?.files[0].originalname != user.image.split('_')[3])) {
+               // console.log("file changed")
+               removeFile(user.image);
+            } else {
+               //duplicate added 
+               //delete that also 
+               // removeFile(req.filename);
+               //previouse file was there and remove insertion
+               //same but not empty name 
+               if (req?.files &&
+                  req.files[0] &&
+                  req.files[0]?.originalname &&
+                  (req.files[0].originalname != '')) {
+                  removeFile(req.finalFilename);
+               }
+               payload = {
+                  ...req.body
+               }
+               delete payload["image"];
             }
-            payload = {
-               ...req.body
-            }
-            delete payload["image"];
          }
          //now do another updation of data
          console.log("Bio is", payload)

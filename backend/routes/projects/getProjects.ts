@@ -6,7 +6,11 @@ const getProjectsAppRouter = express.Router();
 //get all projects
 const getProjects = async (req: express.Request, res: express.Response) => {
     try {
-        const projects = await prisma.project.findMany();
+        const projects = await prisma.project.findMany({
+            include: {
+                softwareUsed: true
+            }
+        });
         await prisma.$disconnect()
         res.status(200).json({
             meta: 1,

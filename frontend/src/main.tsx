@@ -29,6 +29,11 @@ const router = createBrowserRouter([
             return err
           }
         },
+        shouldRevalidate: ({ currentUrl }) => {
+          // only revalidate if the submission originates from
+          // the `/meal-plans/new` route.
+          return true;
+        },
         children: [
           {
             path: ":id",

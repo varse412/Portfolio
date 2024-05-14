@@ -68,7 +68,12 @@ app.use("/api", deleteProjectsAppRouter);
 
 
 //for exprience 
-app.use("/api", addExperienceAppRouter)
+// app.use("/api", addExperienceAppRouter)
+// "/routes/experience/addExperience"
+// const addProjectAppRouter2 = require("./routes/experience/addExperience")
+// app.use("/api", addProjectAppRouter2)
+const addExpAppRouter = require("./routes/experience/newAddExperience")
+app.use("/api", addExpAppRouter)
 //for read exp
 app.use("/api", getExperiencesAppRouter)
 //for edit exp

@@ -56,6 +56,7 @@ type InputCustomProps = {
   dataList?: boolean;
   dataListElements?: any[],
   controls: any;
+  dataToEdit: any;
 }
 
 
@@ -106,36 +107,31 @@ const InputCustom: React.FC = (props: InputCustomProps) => {
           />
         );
       case "file":
-        // console.log("files", field);
-        const { value }: { value: any } = field
-        if (value) {
-          const setFileObj: object = { ...field, value: undefined, name: props?.label }
-          const fileArrLength: number = field?.value?.split("_").length
-          const FilenameToDisplay: string = field?.value?.split("_")[fileArrLength - 1]
+        console.log("controls", props?.controls)
+        if (props?.dataToEdit) {
+          const fileArrLength: number = props?.dataToEdit?.split("_").length
+          const FilenameToDisplay: string = props?.dataToEdit?.split("_")[fileArrLength - 1]
+          var fileInput = document.querySelector("input[type=file]")
+          // console.log("val is ", calculateFileEnteredName(fileInput?.value))
+          function calculateFileEnteredName(fileInputValue: String): String {
+            const inputlength: number = fileInputValue.split('\\').length
+            return fileInputValue.split("\\")[inputlength - 1]
+          }
           return (
             <div>
-              <Label htmlFor={props?.labelfor}>Previous File Name</Label>
+              <Label htmlFor={props?.labelfor}>{fileInput?.value ? "Replacing previous with" : "Previous File Name"}</Label>
               <Input
-                value={FilenameToDisplay || ''}
+                value={fileInput?.value ? calculateFileEnteredName(fileInput?.value) : FilenameToDisplay || ''}
                 disabled
               />
-              <Input
-                placeholder={props.placeholder || ''}
-                type={props.inputType || 'text'}
-                {...setFileObj}
-              />
+              <Input {...props.controls.register(props?.label)} type={props.inputType} />
             </div>
           );
         } else {
           return (
-            <Input
-              placeholder={props.placeholder || ''}
-              type={props.inputType || 'text'}
-              {...field}
-            />
+            <Input {...props.controls.register(props?.label)} type={props.inputType} />
           );
         }
-
 
       default:
         return (
@@ -635,3 +631,40 @@ multiple>
 //   }}
 // />
 // </div>
+
+
+// console.log("files", field);
+// const { value }: { value: any } = field
+// if (value) {
+//   const setFileObj: object = { ...field, value: undefined, name: props?.label }
+//   const fileArrLength: number = field?.value?.split("_").length
+//   const FilenameToDisplay: string = field?.value?.split("_")[fileArrLength - 1]
+//   return (
+//     <div>
+//       <Label htmlFor={props?.labelfor}>Previous File Name</Label>
+//       <Input
+//         value={FilenameToDisplay || ''}
+//         disabled
+//       />
+//       {/* <Input
+//         placeholder={props.placeholder || ''}
+//         type={props.inputType || 'text'}
+//         {...setFileObj}
+//       /> */}
+//       <Input {...props.controls.register(props?.label)} type={props.inputType} />
+//     </div>
+//   );
+// } else {
+// return (
+// <Input
+//   type={props.inputType || 'text'}
+//   {...field}
+// />
+//   <Input {...props.controls.register(props?.label)} type={props.inputType} />
+// );
+// }
+// console.log("input type ", props.controls.register)
+// return (
+//   <Input {...props.controls.register(props?.label)} type={props.inputType} />
+//   // <input {...props.controls.register("picture")} type="file" />
+// )
