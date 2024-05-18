@@ -1,6 +1,6 @@
 import express from "express";
 import { PrismaClient, Prisma } from "@prisma/client"
-import { uploadFile, urlEncodedParser } from "../../middlewares/editExperienceFormData";
+import { uploadFile, urlEncodedParser } from "../../middlewares/addExperienceFormData";
 import removeFile from "../../controllers/workExpImageDeletion"
 // /api/experience/edit/:id
 const prisma = new PrismaClient();
@@ -26,7 +26,7 @@ const editExperienceData = async (req: any, res: any) => {
                 // file is added 
                 //delete previous file
                 removeFile(getExpDetails?.companyImage);
-                const updateProject = await prisma.companyExperience.update({
+                const updateExp = await prisma.companyExperience.update({
                     where: {
                         id: req.params.id,
                     },
@@ -43,11 +43,11 @@ const editExperienceData = async (req: any, res: any) => {
                     meta: 1,
                     status: "Success",
                     message: "Experience updated Successfully",
-                    data: updateProject
+                    data: updateExp
                 })
             } else {
                 //don't update file
-                const updateProject = await prisma.companyExperience.update({
+                const updateExp = await prisma.companyExperience.update({
                     where: {
                         id: req.params.id,
                     },
@@ -64,7 +64,7 @@ const editExperienceData = async (req: any, res: any) => {
                     meta: 1,
                     status: "Success",
                     message: "Experience updated Successfully",
-                    data: updateProject
+                    data: updateExp
                 })
             }
 

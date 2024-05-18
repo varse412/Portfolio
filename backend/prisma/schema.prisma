@@ -76,3 +76,10 @@ model bio {
 model skills {
   id String @id @default(uuid())
 }
+
+model myCertificate {
+  id                        String @id @default(uuid())
+  nameOfCertificate         String
+  certificateLinkToDownload String
+  imageCertificate          String
+}

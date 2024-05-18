@@ -159,6 +159,7 @@ const submitForm: SubmitHandler<FormFields> = async (valData: any) => {
                         inputType="file"
                         placeholder="Enter your Resume"
                         controls={form.control}
+                        dataToEdit={loaderData?.data?.resume || undefined}
                     />
                     <ButtonCustom
                         type={"submit"}

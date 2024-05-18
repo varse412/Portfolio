@@ -9,7 +9,7 @@ export const file_name_generator = (fieldname: string, originalname: string) => 
 }
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..', 'public', 'projectsImage'))
+        cb(null, path.join(__dirname, '..', 'public', 'certificateImages'))
     },
     filename: (req, file, cb) => {
         const filename = `${file.fieldname + "_" + crypto.randomUUID().toString() + "_" + Date.now() + "_" + file.originalname}`
@@ -24,3 +24,4 @@ export const uploadFile = multer({
         fileSize: Infinity
     }
 })
+

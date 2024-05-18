@@ -43,4 +43,8 @@ const storage = multer.diskStorage({
 })
 export const uploadFile = multer({
     storage: storage,
+    limits: {
+        // Set no limits on file size
+        fileSize: Infinity
+    }
 })

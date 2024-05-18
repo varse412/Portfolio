@@ -30,6 +30,12 @@ const getEducationsAppRouter = require("./routes/education/getEducations");
 const editEducationAppRouter = require("./routes/education/editEducation");
 const deleteEducationAppRouter = require("./routes/education/deleteEducation");
 
+//certificates
+const addCertAppRouter = require("./routes/certificates/addCertificate");
+const getCertificatesAppRouter = require("./routes/certificates/getCertificates");
+const editCertificateAppRouter = require("./routes/certificates/editCertificate");
+const deleteCertificateAppRouter = require("./routes/certificates/deleteCertificate");
+
 dotenv.config()
 const app = express()
 const PORT = process.env.port || 3000
@@ -68,12 +74,12 @@ app.use("/api", deleteProjectsAppRouter);
 
 
 //for exprience 
-// app.use("/api", addExperienceAppRouter)
+app.use("/api", addExperienceAppRouter)
 // "/routes/experience/addExperience"
 // const addProjectAppRouter2 = require("./routes/experience/addExperience")
 // app.use("/api", addProjectAppRouter2)
-const addExpAppRouter = require("./routes/experience/newAddExperience")
-app.use("/api", addExpAppRouter)
+// const addExpAppRouter = require("./routes/experience/newAddExperience")
+// app.use("/api", addExpAppRouter)
 //for read exp
 app.use("/api", getExperiencesAppRouter)
 //for edit exp
@@ -91,6 +97,14 @@ app.use("/api", editEducationAppRouter)
 app.use("/api", deleteEducationAppRouter)
 
 
+//for certificate
+app.use("/api", addCertAppRouter)
+//for read
+app.use("/api", getCertificatesAppRouter)
+//for edit 
+app.use("/api", editCertificateAppRouter)
+//for delete
+app.use("/api", deleteCertificateAppRouter)
 
 
 

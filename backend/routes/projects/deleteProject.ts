@@ -3,6 +3,7 @@
 //remove file from projectsImage
 import express from "express";
 import { PrismaClient } from "@prisma/client"
+import removeFile from "../../controllers/projectImageDeletion";
 const prisma = new PrismaClient();
 
 const deleteProjectsAppRouter = express.Router();
@@ -13,9 +14,14 @@ const deleteProject = async (req: express.Request, res: express.Response) => {
             {
                 where: {
                     id: req.params.id
-                }
+                },
+                include: {
+                    softwareUsed: true
+                },
+
             }
         );
+        removeFile(projects?.picture)
         res.status(200).json({
             meta: 1,
             status: "Success",

@@ -130,13 +130,25 @@ const EditProject: React.FC = (): ReactElement => {
 
             const response = await createRequest(params)
             console.log("resp---->", response)
+            //navigater to view 
+            // successfull
+            // toastDestructive({
+            //    successfull: true,
+            //    description: response.message ?? "Data added successfully",
+            // })
+            //show toast with error 
+            // ToastDestructive
+
+            // toastDestructive({
+            //    title: "Api Error",
+            //    description: response.message ?? "Something went wrong with Api",
+            //    buttonText: "try again",
+            //    onClick: () => {
+            //       form.handleSubmit(submitForm)
+            //    }
+            // })
             if (response.meta == 1) {
-               //navigater to view 
-               // successfull
-               // toastDestructive({
-               //    successfull: true,
-               //    description: response.message ?? "Data added successfully",
-               // })
+
                toast({
                   description: response.message ?? "Data added successfully",
                })
@@ -144,17 +156,6 @@ const EditProject: React.FC = (): ReactElement => {
                   navigate("/profiles/projects")
                }, 2000)
             } else {
-               //show toast with error 
-               // ToastDestructive
-
-               // toastDestructive({
-               //    title: "Api Error",
-               //    description: response.message ?? "Something went wrong with Api",
-               //    buttonText: "try again",
-               //    onClick: () => {
-               //       form.handleSubmit(submitForm)
-               //    }
-               // })
                toast({
                   variant: "destructive",
                   title: "Api Error",
@@ -165,15 +166,6 @@ const EditProject: React.FC = (): ReactElement => {
                })
             }
          } catch (err) {
-            // console.log("error can't perform anything")
-            // toastDestructive({
-            //    title: "Client Error",
-            //    description: JSON.stringify(err) ?? "Something went wrong with Api",
-            //    buttonText: "try again",
-            //    onClick: () => {
-            //       form.handleSubmit(submitForm)
-            //    }
-            // })
             toast({
                variant: "destructive",
                title: "Client Error",
@@ -186,29 +178,60 @@ const EditProject: React.FC = (): ReactElement => {
             setLoader(false)
          }
       } else {
-         //edit the profile with given id 
-         //delete its previous photo if added  if same don't do anything
+         // edit the profile with given id 
+         // delete its previous photo if added  if same don't do anything
          // console.log("in id@@", `${backendBaseURL}/api/projects/edit/${state.data.id}`)
          // var formData = document.querySelector('form');
          // console.log("fdata2", Object.fromEntries(formData))
          // console.log("data is", formData)
-         // try {
-         //    const params: requestParams = {
-         //       method: "POST",
-         //       url: `${backendBaseURL}/api/projects/edit/${state.data.id}`,
-         //       data: formData,
-         //    }
-         //    const response = await createRequest(params)
-         // } catch (err) {
-         //    console.log("error in edit", err)
-         // } finally {
-         //    setLoader(false)
-         // }
+         setLoader(true)
+         try {
+            const params: requestParams = {
+               method: "POST",
+               url: `${backendBaseURL}/api/projects/edit/${state.data.id}`,
+               data: { ...data, picture: data?.picture[0] },
+               headers: {
+                  'Content-Type': 'multipart/form-data'
+               }
+            }
+            const response = await createRequest(params)
+            if (response.meta == 1) {
+               toast({
+                  title: "Updation Successfull",
+                  description: response.message ?? "Data updated successfully",
+                  action: <ToastAction altText="go back to view page" onClick={() => {
+                     navigate("/profiles/projects")
+                  }}>go back</ToastAction>,
+               })
+            } else {
+               toast({
+                  variant: "destructive",
+                  title: "Api Error",
+                  description: response.message ?? "Something went wrong with Api",
+                  action: <ToastAction altText="Pls try again" onClick={() => {
+                     form.handleSubmit(submitForm)
+                  }}>{"try again"}</ToastAction>,
+               })
+            }
+         } catch (err) {
+            // console.log("error in edit", err)
+            toast({
+               variant: "destructive",
+               title: "Client Error",
+               description: JSON.stringify(err) ?? "Something went wrong with Api",
+               action: <ToastAction altText="Pls try again" onClick={() => {
+                  form.handleSubmit(submitForm)
+               }}>{"try again"}</ToastAction>,
+            })
+         } finally {
+            setLoader(false)
+         }
       }
    }
 
    return (
       <div className="flex flex-1 justify-center align-middle bg-white">
+
          <Toaster className="flex absolute top-10 " />
          <Form {...form}>
             <form className="flex flex-col  my-2 rounded border-2 border-gray-600 bg-slate-200 "
@@ -216,65 +239,67 @@ const EditProject: React.FC = (): ReactElement => {
                onSubmit={form.handleSubmit(submitForm)}
                encType="multipart/form-data"
             >
-               <InputCustom
-                  labelfor="projectName"
-                  label="projectName"
-                  inputType="text"
-                  placeholder="Enter your Project Name"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="developmentType"
-                  label="developmentType"
-                  inputType="text"
-                  placeholder="Enter your Project developmentType"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="projectDescription"
-                  label="projectDescription"
-                  inputType="textarea"
-                  placeholder="Enter your Project Description"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="softwareUsed"
-                  label="softwareUsed"
-                  inputType="search"
-                  placeholder="Enter your Project software Used"
-                  dataList
-                  dataListElements={items}
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="githubURL"
-                  label="githubURL"
-                  inputType="url"
-                  placeholder="Enter your Github URL"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="liveURL"
-                  label="liveURL"
-                  inputType="url"
-                  placeholder="Enter your live URL"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="demoVideo"
-                  label="demoVideo"
-                  inputType="url"
-                  placeholder="Enter your demoVideo"
-                  controls={form.control}
-               />
-               <InputCustom
-                  labelfor="picture"
-                  label="picture"
-                  inputType="file"
-                  placeholder="Enter your picture"
-                  controls={form.control}
-                  dataToEdit={state?.data?.picture || undefined}
-               />
+               {loader ? <FormSkeleton /> : <>
+                  <InputCustom
+                     labelfor="projectName"
+                     label="projectName"
+                     inputType="text"
+                     placeholder="Enter your Project Name"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="developmentType"
+                     label="developmentType"
+                     inputType="text"
+                     placeholder="Enter your Project developmentType"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="projectDescription"
+                     label="projectDescription"
+                     inputType="textarea"
+                     placeholder="Enter your Project Description"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="softwareUsed"
+                     label="softwareUsed"
+                     inputType="search"
+                     placeholder="Enter your Project software Used"
+                     dataList
+                     dataListElements={items}
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="githubURL"
+                     label="githubURL"
+                     inputType="url"
+                     placeholder="Enter your Github URL"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="liveURL"
+                     label="liveURL"
+                     inputType="url"
+                     placeholder="Enter your live URL"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="demoVideo"
+                     label="demoVideo"
+                     inputType="url"
+                     placeholder="Enter your demoVideo"
+                     controls={form.control}
+                  />
+                  <InputCustom
+                     labelfor="picture"
+                     label="picture"
+                     inputType="file"
+                     placeholder="Enter your picture"
+                     controls={form.control}
+                     dataToEdit={state?.data?.picture || undefined}
+                  />
+               </>}
                <ButtonCustom
                   type={"submit"}
                   value={"updateProfile"}

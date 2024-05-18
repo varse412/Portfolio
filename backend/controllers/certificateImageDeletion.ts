@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const removeFile = (filename: string = "") => {
     const fileName = filename;
-    const directoryPath = __basedir + "/public/companyImages/";
+    const directoryPath = __basedir + "/public/certificateImages/";
     const finalpath = directoryPath + fileName
     if (fs.existsSync(finalpath)) {
         console.log(`The file or directory at '${finalpath}' exists.`);

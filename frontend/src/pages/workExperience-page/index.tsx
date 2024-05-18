@@ -39,7 +39,7 @@ const WorkExperience: React.FC = () => {
                         description={item?.description}
                         startDate={item?.startDate}
                         endDate={item?.endDate}
-                        expData={item?.expData}
+                        expData={item}
                     />
                 )}
             />

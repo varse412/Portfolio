@@ -87,6 +87,7 @@ const Bio: React.FC = () => {
                             inputType="file"
                             placeholder="Enter your image"
                             controls={form.control}
+                            dataToEdit={loaderData?.data?.image || undefined}
                         />
                         <ButtonCustom
                             type={"submit"}

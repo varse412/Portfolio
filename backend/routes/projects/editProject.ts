@@ -1,6 +1,7 @@
 import express from "express";
 import { PrismaClient, Prisma } from "@prisma/client"
-import { uploadFile, urlEncodedParser } from "../../middlewares/editProjectFormData";
+// import { uploadFile, urlEncodedParser } from "../../middlewares/editProjectFormData";
+import { uploadFile, urlEncodedParser } from "../../middlewares/addProjectFormData";
 import removeFile from "../../controllers/projectImageDeletion";
 // /api/projects/edit/:id
 const prisma = new PrismaClient();
@@ -30,7 +31,7 @@ const editProjectData = async (req: any, res: any) => {
                 //     console.log("result===>", req.body.softwareUsed);
                 // }
                 let SoftwareUsedArray = Array.isArray(req.body.softwareUsed) ? req.body.softwareUsed.map((name: any) => ({ name })) : [{ name: req.body.softwareUsed }];
-                console.log("result===>", req.body.SoftwareUsed);
+                // console.log("result===>", req.body.SoftwareUsed);
                 //delete the previous software used
                 //and add new one 
                 await prisma.projectStack.deleteMany({
@@ -40,6 +41,7 @@ const editProjectData = async (req: any, res: any) => {
                 if (req.finalFilename) {
                     // file is added 
                     //delete previous file
+                    console.log("entered 1 case")
                     removeFile(getProjectDetails?.picture);
                     const updateProject = await prisma.project.update({
                         where: {
@@ -58,6 +60,7 @@ const editProjectData = async (req: any, res: any) => {
                             picture: req.finalFilename
                         }
                     })
+                    console.log("val is", updateProject)
                     res.status(200).json({
                         meta: 1,
                         status: "Success",
