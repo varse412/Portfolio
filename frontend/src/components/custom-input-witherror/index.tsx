@@ -100,7 +100,7 @@ const InputCustom: React.FC = (props: InputCustomProps) => {
         return (
           <Textarea
             placeholder={props.placeholder || ''}
-            maxLength={props?.maxInputlength || 50}
+            maxLength={props?.maxInputlength || 10000}
             minLength={props?.minInputLength || 3}
             className="resize-none"
             {...field}

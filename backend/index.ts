@@ -36,6 +36,11 @@ const getCertificatesAppRouter = require("./routes/certificates/getCertificates"
 const editCertificateAppRouter = require("./routes/certificates/editCertificate");
 const deleteCertificateAppRouter = require("./routes/certificates/deleteCertificate");
 
+// skills
+const addOrEditSkillAppRouter = require("./routes/skills/addOrEditSkills");
+const deleteSkillAppRouter = require("./routes/skills/deleteSkills");
+const editSkillAppRouter = require("./routes/skills/getSkills");
+
 dotenv.config()
 const app = express()
 const PORT = process.env.port || 3000
@@ -106,7 +111,11 @@ app.use("/api", editCertificateAppRouter)
 //for delete
 app.use("/api", deleteCertificateAppRouter)
 
+//for skills 
 
+app.use("/api", addOrEditSkillAppRouter)
+app.use("/api", deleteSkillAppRouter)
+app.use("/api", editSkillAppRouter)
 
 
 

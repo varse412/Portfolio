@@ -74,7 +74,9 @@ model bio {
 }
 
 model skills {
-  id String @id @default(uuid())
+  id         String @id @default(uuid())
+  stackName  String
+  stackItems String
 }
 
 model myCertificate {
